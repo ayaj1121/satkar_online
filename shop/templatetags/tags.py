@@ -9,12 +9,11 @@ def modulo(num,val):
 
 
 @register.filter
-def moduloend(num,val):
-    val=num+4
-    print("end",num,val)
-    return num % val
-
-
+def returnitem(l, i):
+    try:
+        return l[i]
+    except:
+        return None
 
 @register.filter
 def pages(num,val):

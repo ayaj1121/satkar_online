@@ -6,11 +6,13 @@ from math import ceil
 
 
 def shop(request):
-    temp=Product.objects.all()
-    slides=ceil(len(temp)/6)
-    params={"products":temp,"slides":range(slides)}
-    for i in range(len(temp)):
-        print(temp[i].desc)
-
+    earphone=Product.objects.filter(desc="earphone")
+    smartphone=Product.objects.filter(desc="smartphone")
+    clothing=Product.objects.filter(desc="clothing")
+    temp=[earphone,smartphone,clothing]
+    earphone_slides=range(ceil(len(earphone)/6))
+    smartphone_slides=range(ceil(len(smartphone)/6))
+    clothing_slides=range(ceil(len(clothing)/6))
+    params={"products":[earphone,smartphone,clothing],"slides":[earphone_slides,smartphone_slides,clothing_slides],"num_pro":range(len(temp)),"iter":zip(temp,range(len(temp)))}
     return render(request,'shop/index.html',params)
 
