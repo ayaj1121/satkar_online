@@ -8,8 +8,9 @@ from math import ceil
 def shop(request):
     temp=Product.objects.all()
     slides=ceil(len(temp)/4)
-    params={"products":temp,"len":range(len(temp)),"slides":range(slides)}
+    params={"products":temp,"slides":range(slides)}
     for i in range(len(temp)):
         print(temp[i].desc)
 
     return render(request,'shop/index.html',params)
+

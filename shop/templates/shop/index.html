@@ -1,21 +1,61 @@
-{% load static %}
+{% load static%}
 {% load tags %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop</title>
+    <link rel="stylesheet" href="{% static 'shop/css/index.css' %}">
+
 </head>
 
-<link rel="stylesheet" href="{% static 'shop/css/index.css' %}">
-
 <body>
-    <h1>{{slides}}</h1>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <h1>Satkar </h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -24,35 +64,36 @@
                     <!-- Carousel indicators -->
                     <ol class="carousel-indicators">
                         {% for s in slides %}
-                                    {% if s == 0 %}
-                                        <li data-target="#myCarousel" data-slide-to="{{s}}" class="active"></li>
-                                        {% else %}
-                                        <li data-target="#myCarousel" data-slide-to="{{s}}"></li>
-                                    {% endif %}
+                        {% if s == 0 %}
+                        <li data-target="#myCarousel" data-slide-to="{{s}}" class="active"></li>
+                        {% else %}
+                        <li data-target="#myCarousel" data-slide-to="{{s}}"></li>
+                        {% endif %}
                         {% endfor %}
                     </ol>
-
                     <!-- Wrapper for carousel items -->
                     <div class="carousel-inner">
+                        {% for product in products %}
+                        {% if forloop.counter <= 4 %}
+                        
+                        {% if forloop.counter|modulo:4 == 1 %}
                         <div class="carousel-item active">
                             <div class="row">
-                                {% for product in products %}
-                                {% if forloop.counter <= 4 %}
+                                {% endif %}
                                 <div class="col-sm-3">
                                     <div class="thumb-wrapper">
                                         <div class="img-box">
-                                            <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}"
-                                                class="img-fluid" alt="">
+                                            <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}" class="img-fluid" alt="">
                                         </div>
                                         <div class="thumb-content">
                                             <h4>{{product.product_name}}</h4>
-                                            <p class="item-price"><strike>$400.00</strike> <span>$369.00</span></p>
+                                            <p class="item-price"><strike>$315.00</strike> <span>$250.00</span></p>
                                             <div class="star-rating">
                                                 <ul class="list-inline">
                                                     <li class="list-inline-item"><i class="fa fa-star"></i></li>
                                                     <li class="list-inline-item"><i class="fa fa-star"></i></li>
                                                     <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
@@ -60,25 +101,28 @@
                                         </div>
                                     </div>
                                 </div>
-                                {% endif %}
-                                {% endfor %}
+                            {% if forloop.counter|modulo:4 == 0 %}
                             </div>
                         </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+
+                        {% for product in products %}
+                        {% if forloop.counter >= 5 %}
+
+                        {% if forloop.counter|modulo:4 == 1 %}            
                         <div class="carousel-item">
-                            {% for product in products %}
-                            {% if forloop.counter|modulo:5 == 0 %}
                             <div class="row">
-                                {% endif %}
-                                {% if forloop.counter >= 5 %}
+                            {% endif %}
                                 <div class="col-sm-3">
                                     <div class="thumb-wrapper">
                                         <div class="img-box">
-                                            <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}"
-                                                class="img-fluid" alt="">
+                                            <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}" class="img-fluid" alt="">
                                         </div>
                                         <div class="thumb-content">
                                             <h4>{{product.product_name}}</h4>
-                                            <p class="item-price"><strike>$289.00</strike> <span>$269.00</span></p>
+                                            <p class="item-price"><strike>$350.00</strike> <span>$330.00</span></p>
                                             <div class="star-rating">
                                                 <ul class="list-inline">
                                                     <li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -92,26 +136,26 @@
                                         </div>
                                     </div>
                                 </div>
-                                {% endif %}
-                                {% if forloop.counter|modulo:8 == 0  %}
+                                {% if forloop.counter|modulo:4 == 0 %}
                             </div>
-                            {% endif %}
-                            {% endfor %}
                         </div>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
                     </div>
                     <!-- Carousel controls -->
-                    <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
+                    
                 </div>
+                <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
+                </a>
             </div>
         </div>
     </div>
 
-    <h1></h1>
 
 
 
