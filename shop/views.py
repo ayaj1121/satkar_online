@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse
 # Create your views here.
 from .models import Product
+from math import ceil
 
 
 def shop(request):
     temp=Product.objects.all()
-    params={"products":temp,"len":range(len(temp))}
+    slides=ceil(len(temp)/4)
+    params={"products":temp,"len":range(len(temp)),"slides":range(slides)}
     for i in range(len(temp)):
         print(temp[i].desc)
 

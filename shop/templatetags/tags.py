@@ -6,3 +6,7 @@ register=template.Library()
 def modulo(num,val):
     print(num,val)
     return num % val
+
+@register.filter
+def pages(num,val):
+    return num/val

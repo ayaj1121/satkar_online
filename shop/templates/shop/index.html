@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="{% static 'shop/css/index.css' %}">
 
 <body>
-    <h1>HELLO SHOP</h1>
+    <h1>{{slides}}</h1>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -23,9 +23,13 @@
                 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
                     <!-- Carousel indicators -->
                     <ol class="carousel-indicators">
-                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#myCarousel" data-slide-to="1"></li>
-                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                        {% for s in slides %}
+                                    {% if s == 0 %}
+                                        <li data-target="#myCarousel" data-slide-to="{{s}}" class="active"></li>
+                                        {% else %}
+                                        <li data-target="#myCarousel" data-slide-to="{{s}}"></li>
+                                    {% endif %}
+                        {% endfor %}
                     </ol>
 
                     <!-- Wrapper for carousel items -->
@@ -58,12 +62,11 @@
                                 </div>
                                 {% endif %}
                                 {% endfor %}
-
                             </div>
                         </div>
-                        {% for product in products %}
-                        {% if forloop.counter|modulo:4 == 0 %}
                         <div class="carousel-item">
+                            {% for product in products %}
+                            {% if forloop.counter|modulo:5 == 0 %}
                             <div class="row">
                                 {% endif %}
                                 {% if forloop.counter >= 5 %}
@@ -90,11 +93,11 @@
                                     </div>
                                 </div>
                                 {% endif %}
+                                {% if forloop.counter|modulo:8 == 0  %}
                             </div>
+                            {% endif %}
+                            {% endfor %}
                         </div>
-                        
-                        {% endfor %}
-
                     </div>
                     <!-- Carousel controls -->
                     <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
