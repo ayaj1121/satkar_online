@@ -12,6 +12,16 @@
     <title>Shop</title>
     <link rel="stylesheet" href="{% static 'shop/css/index.css' %}">
 
+    <style>
+            .container{
+                max-width: 100%;
+            }
+
+            .col-sm-3{
+                max-width: 16%;
+            }
+    </style>
+
 </head>
 
 <body>
@@ -74,9 +84,9 @@
                     <!-- Wrapper for carousel items -->
                     <div class="carousel-inner">
                         {% for product in products %}
-                        {% if forloop.counter <= 4 %}
+                        {% if forloop.counter <= 6 %}
                         
-                        {% if forloop.counter|modulo:4 == 1 %}
+                        {% if forloop.counter|modulo:6 == 1 %}
                         <div class="carousel-item active">
                             <div class="row">
                                 {% endif %}
@@ -101,7 +111,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            {% if forloop.counter|modulo:4 == 0 %}
+                            {% if forloop.counter|modulo:6 == 0 %}
                             </div>
                         </div>
                         {% endif %}
@@ -109,9 +119,9 @@
                         {% endfor %}
 
                         {% for product in products %}
-                        {% if forloop.counter >= 5 %}
+                        {% if forloop.counter >= 7 %}
 
-                        {% if forloop.counter|modulo:4 == 1 %}            
+                        {% if forloop.counter|modulo:6 == 1 %}            
                         <div class="carousel-item">
                             <div class="row">
                             {% endif %}
@@ -136,7 +146,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                {% if forloop.counter|modulo:4 == 0 %}
+                                {% if forloop.counter|modulo:6 == 0 %}
                             </div>
                         </div>
                         {% endif %}

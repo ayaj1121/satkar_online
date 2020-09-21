@@ -7,7 +7,7 @@ from math import ceil
 
 def shop(request):
     temp=Product.objects.all()
-    slides=ceil(len(temp)/4)
+    slides=ceil(len(temp)/6)
     params={"products":temp,"slides":range(slides)}
     for i in range(len(temp)):
         print(temp[i].desc)
