@@ -31,12 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'shop.apps.ShopConfig',
+    'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -63,6 +66,11 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+            'my_templatetag': 'shop.templatetags.tags',
+
+            }
+
         },
     },
 ]
@@ -75,8 +83,14 @@ WSGI_APPLICATION = 'satkar.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER':'postgres',
+        'PASSWORD':'ayaj9428584785',
+        'HOST':'satkar.cqm8kuwkshn4.us-east-2.rds.amazonaws.com',
+        'PORT':5432
+
+
     }
 }
 
@@ -118,3 +132,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+AWS_ACCESS_KEY_ID=' AKIA3O2CEW3YV2FVSSGX'
+AWS_SECRET_ACCESS_KEY='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'
+AWS_STORAGE_BUCKET_NAME='satkar'
+
+AWS_S3_FILE_OVERWRITE=False
+AWS_DEFAULT_ACL=None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATIC_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

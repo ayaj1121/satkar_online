@@ -1,0 +1,127 @@
+{% load static %}
+{% load tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+</head>
+
+<link rel="stylesheet" href="{% static 'shop/css/index.css' %}">
+
+<body>
+    <h1>HELLO SHOP</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Trending <b>Products</b></h2>
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
+                    <!-- Carousel indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myCarousel" data-slide-to="1"></li>
+                        <li data-target="#myCarousel" data-slide-to="2"></li>
+                    </ol>
+
+                    <!-- Wrapper for carousel items -->
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                {% for product in products %}
+                                {% if forloop.counter <= 4 %}
+                                <div class="col-sm-3">
+                                    <div class="thumb-wrapper">
+                                        <div class="img-box">
+                                            <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}"
+                                                class="img-fluid" alt="">
+                                        </div>
+                                        <div class="thumb-content">
+                                            <h4>{{product.product_name}}</h4>
+                                            <p class="item-price"><strike>$400.00</strike> <span>$369.00</span></p>
+                                            <div class="star-rating">
+                                                <ul class="list-inline">
+                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                                                </ul>
+                                            </div>
+                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        {% for product in products %}
+                        {% if forloop.counter|modulo:4 == 0 %}
+                        <div class="carousel-item">
+                            <div class="row">
+                                {% endif %}
+                                {% if forloop.counter >= 5 %}
+                                <div class="col-sm-3">
+                                    <div class="thumb-wrapper">
+                                        <div class="img-box">
+                                            <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}"
+                                                class="img-fluid" alt="">
+                                        </div>
+                                        <div class="thumb-content">
+                                            <h4>{{product.product_name}}</h4>
+                                            <p class="item-price"><strike>$289.00</strike> <span>$269.00</span></p>
+                                            <div class="star-rating">
+                                                <ul class="list-inline">
+                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                                    <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
+                                                </ul>
+                                            </div>
+                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        {% endfor %}
+
+                    </div>
+                    <!-- Carousel controls -->
+                    <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h1></h1>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
