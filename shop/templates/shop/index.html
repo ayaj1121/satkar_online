@@ -1,30 +1,10 @@
+{% extends "shop/basic.html" %}
+
 {% load static%}
 {% load tags %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop</title>
+    {% block index_category_style %}
     <link rel="stylesheet" href="{% static 'shop/css/index.css' %}">
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
-
-
-
-
     <style>
             .container{
                 max-width: 100%;
@@ -32,53 +12,14 @@
 
             .col-sm-3{
                 max-width: 16%;
-            }
+            }       
     </style>
+    {% endblock index_category_style %}
 
 </head>
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">
-            <h1>Satkar </h1>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-
-{{num_pro}}
+{% block index_category %}
 
 {% for i,n in iter %}
 
@@ -124,11 +65,11 @@
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <button id="{{product.product_id}}" href="#" class="btn btn-primary" onclick="cartclick(this.id)">Add to Cart</button>
                                         </div>
                                     </div>
                                 </div>
-                            {% if forloop.counter|modulo:6 == 0 %}
+                            {% if forloop.counter|modulo:6 == 0 %}  
                             </div>
                         </div>
                         {% endif %}
@@ -158,7 +99,7 @@
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <button  id="{{product.product_id}}" href="#" class="btn btn-primary" onclick="cartclick(this.id)">Add to Cart</button>
                                         </div>
                                     </div>
                                 </div>
@@ -184,9 +125,28 @@
     
 {% endfor %}
 
+{% endblock index_category %}
 
+{% block cart_script %}
+<script>
 
+    if(localStorage.getItem('cart')==null){
+            var cart={}
+        }
+        else{
+            cart=JSON.parse(localStorage.getItem('cart'))
+        }
+    function cartclick(id) {
+        id=id.toString()
+        if(cart[id]!=undefined){
+            cart[id]=cart[id]+1
+        }
+        else{
+            cart[id]=1
+        }
+        console.log(cart)
+        console.log(Object.keys(cart).length)
+    }
 
-</body>
-
-</html>
+</script>
+{% endblock cart_script %}
