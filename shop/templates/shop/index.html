@@ -3,6 +3,9 @@
 {% load static%}
 {% load tags %}
 
+    {% block title %}
+        Shop
+    {% endblock title %}
     {% block index_category_style %}
     <link rel="stylesheet" href="{% static 'shop/css/index.css' %}">
     <style>
@@ -10,9 +13,11 @@
                 max-width: 100%;
             }
 
-            .col-sm-3{
-                max-width: 16%;
-            }       
+                {% comment %} .col-sm-3{
+                    min-width: 16%;
+                }   {% endcomment %}
+
+                   
     </style>
     {% endblock index_category_style %}
 
@@ -46,9 +51,9 @@
                         
                         {% if forloop.counter|modulo:6 == 1 %}
                         <div class="carousel-item active">
-                            <div class="row">
+                            <div class="row p-5">
                                 {% endif %}
-                                <div class="col-sm-3">
+                                <div class="col-lg-2 col-md-4">
                                     <div class="thumb-wrapper">
                                         <div class="img-box">
                                             <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}" class="img-fluid" alt="">
@@ -80,9 +85,9 @@
                         {% if forloop.counter >= 7 %}
                         {% if forloop.counter|modulo:6 == 1 %}            
                         <div class="carousel-item">
-                            <div class="row">
+                            <div class="row p-5">
                             {% endif %}
-                                <div class="col-sm-3">
+                                <div class="col-lg-2 col-md-3">
                                     <div class="thumb-wrapper">
                                         <div class="img-box">
                                             <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}" class="img-fluid" alt="">

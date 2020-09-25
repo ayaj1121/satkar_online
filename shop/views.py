@@ -16,3 +16,26 @@ def shop(request):
     params={"products":[earphone,smartphone,clothing],"slides":[earphone_slides,smartphone_slides,clothing_slides],"num_pro":range(len(temp)),"iter":zip(temp,range(len(temp)))}
     return render(request,'shop/index.html',params)
 
+def about(request):
+    """
+    docstring
+    """
+    return render(request,'shop/about.html')
+
+def product(request):
+    """
+    docstring
+    """
+    pass
+
+def checkout(request):
+    """
+    docstring
+    """
+    pass
+
+def tracker(request):
+    """
+    docstring
+    """
+    pass    
