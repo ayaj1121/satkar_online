@@ -1,10 +1,11 @@
 {% extends 'shop/basic.html' %}
 {% load static  %}
 
-
+{% block title %}all
+{% endblock title %}
 
 {% block style %}
-	    <style>
+<style>
 .btn {
 	color: #333;
 	border-radius: 0;
@@ -17,10 +18,21 @@
 	margin-top: 5px;
 	line-height: 16px;
 }
-.btn:focus {
+
+.thumb-wrapper{
+	border-radius: 10px;
+	padding: 3px;
+}
+
+.thumb-wrapper:hover{
+	background-color: rgba(0, 0, 0, 0.2);
+	border: #000000;
+}
+
+.btn:hover {
 	color: #fff;
-	background: #000;
-	border-color: #000;
+	background: #000000;
+	border-color: #000000;
 	box-shadow: none;
 }
  .btn i {
@@ -29,7 +41,10 @@
 	margin-left: 5px;
 }
 
+.infi
+
 .thumb-wrapper{
+	
 	max-width: 500px;
 	max-height: 500px;
 }
@@ -38,6 +53,7 @@
 	width: 100%;
 height: 300px;
 object-fit: contain;
+background-color:#DCDCDC;
 }
 </style>
 {% endblock style %}
@@ -51,7 +67,8 @@ object-fit: contain;
 <div class="row infinite-container">
 	{% for product in products %}
 	<div class="col-lg-2 col-md-4 infinite-item" style="padding-bottom: 20px;">
-		<div class="thumb-wrapper">
+		<a href="#" class="text-dark" style="text-decoration: none;">
+			<div class="thumb-wrapper">
 			<div class="img-box">
 				<img data-src="https://source.unsplash.com/random/50{{ forloop.counter|add:products.next_page_number }}*500{{ forloop.counter|add:products.next_page_number}}"
 					class="img lazy" alt="">
@@ -68,10 +85,12 @@ object-fit: contain;
 						<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
 					</ul>
 				</div>
-				<button id="{{ product.product_id }}" href="#" class="btn btn-primary" onclick="cartclick(this.id)">Add to
+				<button id="{{ product.product_id }}" href="#" class="btn btn-primary ml-1" onclick="cartclick(this.id)">Add to
 					Cart</button>
+					<button id="{{ product.product_id }}" href="#" class="btn btn-primary ml-5" onclick="cartclick(this.id)">Add to
+						Cart</button>
 			</div>
-		</div>
+		</div></a>
 	</div>
 
 
