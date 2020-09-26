@@ -6,25 +6,21 @@
     {% block title %}
         Shop
     {% endblock title %}
-    {% block index_category_style %}
+    {% block style %}
     <link rel="stylesheet" href="{% static 'shop/css/index.css' %}">
     <style>
             .container{
                 max-width: 100%;
             }
 
-                {% comment %} .col-sm-3{
-                    min-width: 16%;
-                }   {% endcomment %}
 
                    
     </style>
-    {% endblock index_category_style %}
-
-</head>
+    {% endblock style %}
 
 
-{% block index_category %}
+
+{% block main %}
 
 {% for i,n in iter %}
 
@@ -47,16 +43,23 @@
                     <!-- Wrapper for carousel items -->
                     <div class="carousel-inner">
                         {% for product in i %}
-                        {% if forloop.counter <= 6 %}
-                        
                         {% if forloop.counter|modulo:6 == 1 %}
+                        {% if forloop.first %}
                         <div class="carousel-item active">
                             <div class="row p-5">
+                        
+                        {% else %}
+                        <div class="carousel-item ">
+                        <div class="row p-5 infinite-container">
+                        {% endif %}
                                 {% endif %}
-                                <div class="col-lg-2 col-md-4">
+
+
+                        
+                                <div class="col-lg-2 col-md-4 infinite-item">
                                     <div class="thumb-wrapper">
                                         <div class="img-box">
-                                            <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}" class="img-fluid" alt="">
+                                            <img  data-src="https://source.unsplash.com/random/50{{forloop.counter}}*500{{forloop.counter}}" class="img-fluid lazy" alt="">
                                         </div>
                                         <div class="thumb-content">
                                             <h4>{{product.product_name}}</h4>
@@ -78,42 +81,9 @@
                             </div>
                         </div>
                         {% endif %}
-                        {% endif %}
                         {% endfor %}
 
-                        {% for product in i %}
-                        {% if forloop.counter >= 7 %}
-                        {% if forloop.counter|modulo:6 == 1 %}            
-                        <div class="carousel-item">
-                            <div class="row p-5">
-                            {% endif %}
-                                <div class="col-lg-2 col-md-3">
-                                    <div class="thumb-wrapper">
-                                        <div class="img-box">
-                                            <img src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}" class="img-fluid" alt="">
-                                        </div>
-                                        <div class="thumb-content">
-                                            <h4>{{product.product_name}}</h4>
-                                            <p class="item-price"><strike>$350.00</strike> <span>$330.00</span></p>
-                                            <div class="star-rating">
-                                                <ul class="list-inline">
-                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                                    <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                                    <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                                </ul>
-                                            </div>
-                                            <button  id="{{product.product_id}}" href="#" class="btn btn-primary" onclick="cartclick(this.id)">Add to Cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% if forloop.counter|modulo:6 == 0 %}
-                            </div>
-                        </div>
-                        {% endif %}
-                        {% endif %}
-                        {% endfor %}
+                        
                     </div>
                     <!-- Carousel controls -->
                 </div>
@@ -121,7 +91,7 @@
                     <a class="carousel-control-prev" href="#myCarousel{{n}}" data-slide="prev">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a class="carousel-control-next" href="#myCarousel{{n}}" data-slide="next">
+                    <a class="carousel-control-next infinite-more-link" href="#myCarousel{{n}}" data-slide="next">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </div>
@@ -130,10 +100,13 @@
     
 {% endfor %}
 
-{% endblock index_category %}
+{% endblock main %}
 
-{% block cart_script %}
+{% block script %}
 <script>
+    const myLazyLoad=new LazyLoad({
+        elements_selector:".lazy"
+    })
 
     if(localStorage.getItem('cart')==null){
             var cart={}
@@ -154,4 +127,4 @@
     }
 
 </script>
-{% endblock cart_script %}
+{% endblock script %}

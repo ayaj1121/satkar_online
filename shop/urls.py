@@ -13,6 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from .models import Product
+from django.db import models
+
 from django.contrib import admin
 from django.urls import path,include
 from . import views
@@ -23,8 +26,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.shop,name="shop"),
     path('about/',views.about,name='about'),
-    path('tracker/',views.about,name='about'),
-    path('checkout/',views.about,name='about'),
-    path('product/',views.about,name='about')
+    path('tracker/',views.tracker,name=''),
+    path('checkout/',views.checkout,name=''),
+    path('product/',views.product,name=''),
+    path("all/", views.all, name="all")
 
 ]
