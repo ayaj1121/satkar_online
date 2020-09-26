@@ -1,0 +1,185 @@
+{% extends 'shop/basic.html' %}
+
+{% block style %}
+<style>
+    body {
+        background-color: #fff;
+        color: #000;
+        overflow-x: hidden
+    }
+
+    .card {
+        margin: auto;
+        padding: 20px;
+        border-radius: 15px;
+        margin-top: 50px;
+        margin-bottom: 50px
+    }
+
+    fieldset.active {
+        display: block !important
+    }
+
+    fieldset {
+        display: none
+    }
+
+    .pic0 {
+        width: 400px;
+        height: 500px;
+        margin-left: 85px;
+        margin-right: auto;
+        display: block
+    }
+
+    .product-pic {
+        padding-left: auto;
+        padding-right: auto;
+        width: 100%
+    }
+
+    .thumbnails {
+        position: absolute
+    }
+
+    .fit-image {
+        width: 100%;
+        object-fit: cover
+    }
+
+    .tb {
+        width: 62px;
+        height: 62px;
+        border: 1px solid grey;
+        margin: 2px;
+        opacity: 0.4;
+        cursor: pointer
+    }
+
+    .tb-active {
+        opacity: 1
+    }
+
+    .thumbnail-img {
+        width: 60px;
+        height: 60px
+    }
+
+    @media screen and (max-width: 768px) {
+        .pic0 {
+            width: 250px;
+            height: 350px
+        }
+    }
+</style>
+
+{% endblock style %}
+
+
+{% block main %}
+<div class="container-fluid px-sm-1 py-5 mx-auto ">
+    <div class="row">
+        <div class="col-lg-4 col-md-12">
+            <div class="d-flex">
+                <div class="card">
+                    <div class="d-flex flex-column thumbnails">
+                        <div id="f1" class="tb tb-active"> <img class="lazy thumbnail-img fit-image"
+                                data-src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}"> </div>
+                        <div id="f2" class="tb"> <img class="lazy thumbnail-img fit-image"
+                                data-src="https://picsum.photos/540/540"> </div>
+                        <div id="f3" class="tb"> <img class="lazy thumbnail-img fit-image"
+                                data-src="https://picsum.photos/560/560"> </div>
+                        <div id="f4" class="tb"> <img class="lazy thumbnail-img fit-image"
+                                data-src="https://picsum.photos/580/580"> </div>
+                    </div>
+                    <fieldset id="f11" class="active">
+                        <div class="product-pic"> <img class="pic0 lazy" data-src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}"> </div>
+                    </fieldset>
+                    <fieldset id="f21" class="">
+                        <div class="product-pic"> <img class="pic0 lazy" data-src="https://picsum.photos/540/540"> </div>
+                    </fieldset>
+                    <fieldset id="f31" class="">
+                        <div class="product-pic"> <img class="pic0 lazy" data-src="https://picsum.photos/560/560"> </div>
+                    </fieldset>
+                    <fieldset id="f41" class="">
+                        <div class="product-pic"> <img class="pic0 lazy" data-src="https://picsum.photos/580/580"> </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="ml-5 mt-5 mr-5 col-lg-6 col-md-12 p-5  bg-light">
+            <h1>{{product.product_name}}</h1>
+        </div>
+    </div>
+</div>
+{% endblock main %}
+
+
+{% block script %}
+
+<script>
+    $(document).ready(function () {
+        const myLazyLoad=new LazyLoad({
+        elements_selector:".lazy"
+    });
+
+
+        $(".tb").hover(function () {
+
+            $(".tb").removeClass("tb-active");
+            $(this).addClass("tb-active");
+
+            current_fs = $(".active");
+
+            next_fs = $(this).attr('id');
+            next_fs = "#" + next_fs + "1";
+
+            $("fieldset").removeClass("active");
+            $(next_fs).addClass("active");
+
+            current_fs.animate({}, {
+                step: function () {
+                    current_fs.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    next_fs.css({
+                        'display': 'block'
+                    });
+                }
+            });
+        });
+
+
+
+        $(".tb").click(function () {
+
+$(".tb").removeClass("tb-active");
+$(this).addClass("tb-active");
+
+current_fs = $(".active");
+
+next_fs = $(this).attr('id');
+next_fs = "#" + next_fs + "1";
+
+$("fieldset").removeClass("active");
+$(next_fs).addClass("active");
+
+current_fs.animate({}, {
+    step: function () {
+        current_fs.css({
+            'display': 'none',
+            'position': 'relative'
+        });
+        next_fs.css({
+            'display': 'block'
+        });
+    }
+});
+});
+
+    });
+    
+
+</script>
+{% endblock script %}

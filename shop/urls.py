@@ -28,7 +28,7 @@ urlpatterns = [
     path('about/',views.about,name='about'),
     path('tracker/',views.tracker,name=''),
     path('checkout/',views.checkout,name=''),
-    path('product/',views.product,name=''),
+    path('product/<int:id>',views.product),
     path("all/", views.all, name="all")
 
 ]

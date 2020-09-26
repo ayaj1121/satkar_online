@@ -50,16 +50,15 @@
                         
                         {% else %}
                         <div class="carousel-item ">
-                        <div class="row p-5 infinite-container">
+                        <div class="row p-5">
                         {% endif %}
                                 {% endif %}
 
-
-                        
-                                <div class="col-lg-2 col-md-4 infinite-item">
+                                <div class="col-lg-2 col-md-4 ">
+                                    <a href="product/{{product.product_id}}" class="text-dark" style="text-decoration: none;">
                                     <div class="thumb-wrapper">
                                         <div class="img-box">
-                                            <img  data-src="https://source.unsplash.com/random/50{{forloop.counter}}*500{{forloop.counter}}" class="img-fluid lazy" alt="">
+                                            <img  data-src="https://picsum.photos/50{{ forloop.counter }}/50{{ forloop.counter }}" class="img-fluid lazy" alt="">
                                         </div>
                                         <div class="thumb-content">
                                             <h4>{{product.product_name}}</h4>
@@ -75,7 +74,7 @@
                                             </div>
                                             <button id="{{product.product_id}}" href="#" class="btn btn-primary" onclick="cartclick(this.id)">Add to Cart</button>
                                         </div>
-                                    </div>
+                                    </div></a>
                                 </div>
                             {% if forloop.counter|modulo:6 == 0 %}  
                             </div>
@@ -85,13 +84,14 @@
 
                         
                     </div>
+
                     <!-- Carousel controls -->
                 </div>
                     
                     <a class="carousel-control-prev" href="#myCarousel{{n}}" data-slide="prev">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                    <a class="carousel-control-next infinite-more-link" href="#myCarousel{{n}}" data-slide="next">
+                    <a class="carousel-control-next" href="#myCarousel{{n}}" data-slide="next">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </div>
@@ -103,10 +103,12 @@
 {% endblock main %}
 
 {% block script %}
+
+
 <script>
     const myLazyLoad=new LazyLoad({
         elements_selector:".lazy"
-    })
+    });
 
     if(localStorage.getItem('cart')==null){
             var cart={}
@@ -125,6 +127,7 @@
         console.log(cart)
         console.log(Object.keys(cart).length)
     }
+
 
 </script>
 {% endblock script %}

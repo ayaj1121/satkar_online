@@ -39,30 +39,12 @@ def shop(request):
     return render(request,'shop/index.html',params)
 
 def about(request):
-    earphone=Product.objects.filter(desc="earphone")
-    smartphone=Product.objects.filter(desc="smartphone")
-    clothing=Product.objects.filter(desc="clothing")
-    infinite=list([])
-    infinite1=list([])
-    for j in range(0,5000):
-        infinite.append(list(chain(smartphone)))
-    for i in infinite:
-        for j in i:
-            infinite1.append(j)
-    print(len(infinite1))
-    temp=[earphone,smartphone,clothing,infinite1]
-    earphone_slides=range(ceil(len(earphone)/6))
-    smartphone_slides=range(ceil(len(smartphone)/6))
-    clothing_slides=range(ceil(len(clothing)/6))
-    infinite1=range(ceil(len(infinite1)/6))
-    params={"products":temp,"slides":[earphone_slides,smartphone_slides,clothing_slides,infinite1],"num_pro":range(len(temp)),"iter":zip(temp,range(len(temp)))}
-    return render(request,'shop/index.html',params)
-
-def product(request):
-    """
-    docstring
-    """
     pass
+
+def product(request,id):
+    product=Product.objects.get(product_id=id)
+    params={"product":product}
+    return render(request,'shop/product.html',params)
 
 def checkout(request):
     """
