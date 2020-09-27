@@ -60,6 +60,7 @@
                                         <div class="img-box">
                                             <img  data-src="https://picsum.photos/50{{ forloop.counter }}/50{{ forloop.counter }}" class="img-fluid lazy" alt="">
                                         </div>
+                                        </a>
                                         <div class="thumb-content">
                                             <h4>{{product.product_name}}</h4>
                                             <p class="item-price"><strike>$315.00</strike> <span>$250.00</span></p>
@@ -72,9 +73,11 @@
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <button id="{{product.product_id}}" href="#" class="btn btn-primary" onclick="cartclick(this.id)">Add to Cart</button>
+                                            <span id="sp{{product.product_id}}">
+                                                <button id="{{product.product_id}}" href="#" class="btn btn-primary" onclick="cartclick(this.id)">Add to Cart</button>
+                                            </span>
                                         </div>
-                                    </div></a>
+                                    </div>
                                 </div>
                             {% if forloop.counter|modulo:6 == 0 %}  
                             </div>
@@ -114,19 +117,56 @@
             var cart={}
         }
         else{
-            cart=JSON.parse(localStorage.getItem('cart'))
+            cart=JSON.parse(localStorage.getItem('cart'));
+        var count=0
+            for(var id in cart){
+            count=count+cart[id];
+            updatecartbtn(id)
+            }
+            console.log(count);
+            document.getElementById("cart_count").innerText="Cart("+count+")";
+
         }
     function cartclick(id) {
-        id=id.toString()
+        id=id.toString();
         if(cart[id]!=undefined){
-            cart[id]=cart[id]+1
+            cart[id]=cart[id]+1;
         }
         else{
-            cart[id]=1
+            cart[id]=1;
         }
-        console.log(cart)
-        console.log(Object.keys(cart).length)
+        var count=0
+        for(var i in cart){
+            count=count+cart[i];
+        }
+        localStorage.setItem('cart',JSON.stringify(cart));
+        document.getElementById("cart_count").innerText="Cart("+count+")";
+        updatecartbtn(id)
     }
+
+    function updatecartbtn(id){
+        document.getElementById("sp"+id).innerHTML="<button id='minuscart"+id+"' class='btn btn-primary minus mr-2' onclick=minuscart(this.id) >"+"-"+"</button>"+cart[id]+
+        "<button id='pluscart"+id+"' onclick=pluscart(this.id) "+id+" class='ml-2 btn btn-primary minus'>"+"+"+"</button>";
+    }
+
+    function minuscart(id) {
+        id=id.slice(9,)
+        console.log(id,cart[id]);
+        cart[id]=cart[id]-1;
+        updatecartbtn(id);
+        localStorage.setItem('cart',JSON.stringify(cart));
+        
+    }
+    function pluscart(id) {
+        id=id.slice(8,)
+        cart[id]=cart[id]+1;
+        console.log(id,cart[id]);
+        updatecartbtn(id);
+        localStorage.setItem('cart',JSON.stringify(cart));
+        
+    }
+
+
 
 
 </script>

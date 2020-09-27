@@ -19,9 +19,9 @@ from django.views.generic.list import ListView
 
 
 def shop(request):
-    earphone=Product.objects.filter(desc="earphone")
-    smartphone=Product.objects.filter(desc="smartphone")
-    clothing=Product.objects.filter(desc="clothing")
+    earphone=Product.objects.filter(category="earphone")
+    smartphone=Product.objects.filter(category="smartphone")
+    clothing=Product.objects.filter(category="clothing")
     infinite=list([])
     infinite1=list([])
     for j in range(0,50):
