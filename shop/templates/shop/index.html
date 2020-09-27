@@ -153,8 +153,18 @@
         id=id.slice(9,)
         console.log(id,cart[id]);
         cart[id]=cart[id]-1;
-        updatecartbtn(id);
+        if(cart[id]==0){
+            document.getElementById("sp"+id).innerHTML="<button id="+id+" href='#' class='btn btn-primary' onclick='cartclick(this.id)''>Add to Cart</button>"
+            delete cart[id];
+        }
+        else{
+        updatecartbtn(id);}
+        var count=0
+        for(var i in cart){
+            count=count+cart[i];
+        }
         localStorage.setItem('cart',JSON.stringify(cart));
+        document.getElementById("cart_count").innerText="Cart("+count+")";
         
     }
     function pluscart(id) {
@@ -162,7 +172,12 @@
         cart[id]=cart[id]+1;
         console.log(id,cart[id]);
         updatecartbtn(id);
+        var count=0
+        for(var i in cart){
+            count=count+cart[i];
+        }
         localStorage.setItem('cart',JSON.stringify(cart));
+        document.getElementById("cart_count").innerText="Cart("+count+")";
         
     }
 
