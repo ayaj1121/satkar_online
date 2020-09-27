@@ -9,6 +9,7 @@ class Product(models.Model):
     img=models.ImageField(upload_to="image",default='')
     desc=models.CharField(max_length=500,default='')
     price=models.IntegerField(default=0)
+    discounted_price=models.IntegerField(default=0)
     
 
 
