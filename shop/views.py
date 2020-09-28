@@ -47,10 +47,7 @@ def product(request,id):
     return render(request,'shop/product.html',params)
 
 def checkout(request):
-    """
-    docstring
-    """
-    pass
+    return render(request,'shop/checkout.html')
 
 def tracker(request):
     """

@@ -128,10 +128,16 @@ Shop
         });
 
         if (localStorage.getItem('cart') == null) {
-            var cart = {}
+            var cart = {} 
+            var cartitem={}  
+            var cartitemprice={}  
+
         }
         else {
             cart = JSON.parse(localStorage.getItem('cart'));
+            cartitem = JSON.parse(localStorage.getItem('cartitem'));
+            cartitemprice = JSON.parse(localStorage.getItem('cartitemprice'));
+
             var count = 0
             for (var id in cart) {
                 count = count + cart[id];
@@ -141,22 +147,27 @@ Shop
             document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
             updatecartpop(cart)
 
-
-
         }
+
+
         function addtocartclick(id) {
             id = id.toString();
             if (cart[id] != undefined) {
                 cart[id] = cart[id] + 1;
+                
             }
             else {
                 cart[id] = 1;
+                cartitem[id]=document.getElementById("productname"+id).innerText;
+                cartitemprice[id]=parseInt(document.getElementById("price"+id).innerText);
             }
             var count = 0
             for (var i in cart) {
                 count = count + cart[i];
             }
             localStorage.setItem('cart', JSON.stringify(cart));
+            localStorage.setItem('cartitem', JSON.stringify(cartitem));
+            localStorage.setItem('cartitemprice', JSON.stringify(cartitemprice));
             document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
             updatecartbtn(id)
             updatecartpop(cart)
@@ -232,6 +243,7 @@ Shop
         }
 
 
+        
 
 
         function updatecartpop(cart) {
@@ -250,7 +262,7 @@ Shop
             console.log("popstr", popstr);
             if (popstr != "") {
                 popstr = "<b style='font-size:'50'px;'><pre> product name    Qty Price Amount</pre></b>" + popstr + "<br><span>----------------------------------------------------</span><br><pre  class=' text-info'>" + "               total amount=" + total + "</pre>";
-                popstr = popstr + "<br><input type='button' onclick='clearcart()' class='btn btn-danger mr-3' value='clear'><input type='button' class='btn btn-primary' value='checkout'> </div>";
+                popstr = popstr + "<br><input type='button' onclick='clearcart()' class='btn btn-danger mr-3' value='clear'><a href='{% url 'checkout' %}' ><input type='button' class='btn btn-primary' value='checkout'></a> </div>";
             }
 
             console.log(popstr);
