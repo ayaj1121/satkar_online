@@ -11,7 +11,10 @@ Shop
 <style>
     .container {
         max-width: 100%;
+    }
 
+    .popover-body {
+        width: 500px;
     }
 </style>
 {% endblock style %}
@@ -78,7 +81,7 @@ Shop
                                             </div>
                                             <span id="sp{{product.product_id}}">
                                                 <button id="{{product.product_id}}" href="#" class="btn btn-primary"
-                                                    onclick="cartclick(this.id)">Add to Cart</button>
+                                                    onclick="addtocartclick(this.id)">Add to Cart</button>
                                             </span>
                                         </div>
                                     </div>
@@ -113,13 +116,13 @@ Shop
 
 
     <script>
-          $(function () {
+        $(function () {
             $('[data-toggle="popover"]').popover({
                 html: true,
                 sanitize: false,
-                
+
             })
-        }) 
+        })
         const myLazyLoad = new LazyLoad({
             elements_selector: ".lazy"
         });
@@ -137,11 +140,11 @@ Shop
             console.log(count);
             document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
             updatecartpop(cart)
-            
-            
+
+
 
         }
-        function cartclick(id) {
+        function addtocartclick(id) {
             id = id.toString();
             if (cart[id] != undefined) {
                 cart[id] = cart[id] + 1;
@@ -157,7 +160,7 @@ Shop
             document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
             updatecartbtn(id)
             updatecartpop(cart)
-            
+
 
 
         }
@@ -172,7 +175,7 @@ Shop
             console.log(id, cart[id]);
             cart[id] = cart[id] - 1;
             if (cart[id] == 0) {
-                document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn btn-primary' onclick='cartclick(this.id)''>Add to Cart</button>"
+                document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn btn-primary' onclick='addtocartclick(this.id)''>Add to Cart</button>"
                 delete cart[id];
             }
             else {
@@ -185,7 +188,12 @@ Shop
             localStorage.setItem('cart', JSON.stringify(cart));
             document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
             updatecartpop(cart)
-            
+            if (count == 0) {
+                document.getElementById("cart_pop1").setAttribute('data-content', "<h5 >Empty Cart!</h5>");
+
+            }
+
+            $("#cart_pop1").popover('hide')
 
 
         }
@@ -201,17 +209,25 @@ Shop
             localStorage.setItem('cart', JSON.stringify(cart));
             document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
             updatecartpop(cart)
+            $("#cart_pop1").popover('hide')
 
-            
-            
+
+
 
 
 
         }
 
         function clearcart() {
-            
-            console.log("clear");
+            for (var id in cart) {
+                document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn btn-primary' onclick='addtocartclick(this.id)''>Add to Cart</button>"
+                delete cart[id]
+            }
+            localStorage.clear()
+            $("#cart_pop1").popover('hide')
+            document.getElementById("cart_count1").innerText = "Cart(" + 0 + ")";
+            updatecartpop(cart)
+            document.getElementById("cart_pop1").setAttribute('data-content', "<h5 >Empty Cart!</h5>");
 
         }
 
@@ -226,7 +242,7 @@ Shop
                 if (i != null) {
                     var price = parseInt(document.getElementById("price" + i).innerText)
                     total = total + cart[i] * price
-                    popstr = popstr + "<b>" + n + ") " + document.getElementById("productname" + i).innerText + " " + cart[i] + "x" + price + "=" + cart[i] * price + "</b><br>";
+                    popstr = popstr + "<b>" + n + ") " + document.getElementById("productname" + i).innerText + "  </b>" + cart[i] + "x" + price + "=" + cart[i] * price + "<br>";
                     n = n + 1
 
                 }
@@ -234,16 +250,16 @@ Shop
             console.log("popstr", popstr);
             if (popstr != "") {
                 popstr = "<b style='font-size:'50'px;'><pre> product name    Qty Price Amount</pre></b>" + popstr + "<br><span>----------------------------------------------------</span><br><pre  class=' text-info'>" + "               total amount=" + total + "</pre>";
-                popstr=popstr+"<br><input type='button' onclick='clearcart()' class='btn btn-danger mr-3' value='clear'><input type='button' class='btn btn-primary' value='checkout'> </div>";
+                popstr = popstr + "<br><input type='button' onclick='clearcart()' class='btn btn-danger mr-3' value='clear'><input type='button' class='btn btn-primary' value='checkout'> </div>";
             }
-            
+
             console.log(popstr);
 
             document.getElementById("cart_pop1").setAttribute('data-content', popstr);
-            
+
         }
 
-      
+
 
 
 
