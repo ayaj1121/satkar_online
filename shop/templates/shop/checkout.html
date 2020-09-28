@@ -279,12 +279,8 @@
         id = id.slice(8,)
         cart[id] = cart[id] + 1;
         console.log(id, cart[id]);
-        updatecartbtn(id);
-        var count = 0
-        for (var i in cart) {
-            count = count + cart[i];
-        }
         localStorage.setItem('cart', JSON.stringify(cart));
+        updatecartbox();
 
 
     }
