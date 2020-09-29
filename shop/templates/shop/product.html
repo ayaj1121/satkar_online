@@ -2,120 +2,336 @@
 
 {% block style %}
 <style>
+    /*****************globals*************/
     body {
-        background-color: #fff;
-        color: #000;
-        overflow-x: hidden
+        font-family: 'open sans';
+        overflow-x: hidden;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    .container {
+        max-width: 100%;
+
+    }
+
+    .preview {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    @media screen and (max-width: 996px) {
+        .preview {
+            margin-bottom: 20px;
+        }
+    }
+
+    .preview-pic {
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+    }
+
+    .preview-thumbnail.nav-tabs {
+        border: none;
+        margin-top: 15px;
+    }
+
+    .preview-thumbnail.nav-tabs li {
+        width: 18%;
+        border: 1px #333 solid;
+        margin-right: 2.5%;
+    }
+
+    .preview-thumbnail.nav-tabs li img {
+        max-width: 100%;
+        display: block;
+        height: 100px;
+        object-fit: contain;
+    }
+
+    .preview-thumbnail.nav-tabs li a {
+        padding: 0;
+        margin: 0;
+    }
+
+    .preview-thumbnail.nav-tabs li:last-of-type {
+        margin-right: 0;
+    }
+
+    .tab-content {
+        overflow: hidden;
+    }
+
+    .tab-content img {
+        width: 100%;
+        max-height: 500px;
+        object-fit: contain;
+        -webkit-animation-name: opacity;
+        animation-name: opacity;
+        -webkit-animation-duration: .3s;
+        animation-duration: .3s;
     }
 
     .card {
-        margin: auto;
-        padding: 20px;
-        border-radius: 15px;
         margin-top: 50px;
-        margin-bottom: 50px
+        background: #eee;
+        padding: 3em;
+        line-height: 1.5em;
     }
 
-    fieldset.active {
-        display: block !important
-    }
-
-    fieldset {
-        display: none
-    }
-
-    .pic0 {
-        width: 400px;
-        height: 500px;
-        margin-left: 85px;
-        margin-right: auto;
-        display: block
-    }
-
-    .product-pic {
-        padding-left: auto;
-        padding-right: auto;
-        width: 100%
-    }
-
-    .thumbnails {
-        position: absolute
-    }
-
-    .fit-image {
-        width: 100%;
-        object-fit: cover
-    }
-
-    .tb {
-        width: 62px;
-        height: 62px;
-        border: 1px solid grey;
-        margin: 2px;
-        opacity: 0.4;
-        cursor: pointer
-    }
-
-    .tb-active {
-        opacity: 1
-    }
-
-    .thumbnail-img {
-        width: 60px;
-        height: 60px
-    }
-
-    @media screen and (max-width: 768px) {
-        .pic0 {
-            width: 250px;
-            height: 350px
+    @media screen and (min-width: 997px) {
+        .wrapper {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
         }
     }
+
+    .details {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+
+    .colors {
+        -webkit-box-flex: 1;
+        -webkit-flex-grow: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+    }
+
+    .product-title,
+    .price,
+    .sizes,
+    .colors {
+        text-transform: UPPERCASE;
+        font-weight: bold;
+    }
+
+    .checked,
+    .price span {
+        color: #ff9f1a;
+    }
+
+    .product-title,
+    .rating,
+    .product-description,
+    .price,
+    .vote,
+    .sizes {
+        margin-bottom: 15px;
+    }
+
+    .product-title {
+        margin-top: 0;
+    }
+
+    .size {
+        margin-right: 10px;
+    }
+
+    .size:first-of-type {
+        margin-left: 40px;
+    }
+
+    .color {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+        height: 2em;
+        width: 2em;
+        border-radius: 2px;
+    }
+
+    .color:first-of-type {
+        margin-left: 20px;
+    }
+
+    .add-to-cart,
+    .like {
+        background: #fff;
+        color: #333;
+        border: none;
+        padding: 1.2em 1.5em;
+        text-transform: UPPERCASE;
+        font-weight: bold;
+        -webkit-transition: background .3s ease;
+        transition: background .3s ease;
+    }
+
+    .add-to-cart:hover,
+    .like:hover {
+        color: #fff;
+        background: #000;
+        border-color: #000;
+    }
+
+    .not-available {
+        text-align: center;
+        line-height: 2em;
+    }
+
+    .not-available:before {
+        font-family: fontawesome;
+        content: "\f00d";
+        color: #fff;
+    }
+
+    .orange {
+        background: #ff9f1a;
+    }
+
+    .green {
+        background: #85ad00;
+    }
+
+    .blue {
+        background: #0076ad;
+    }
+
+    .tooltip-inner {
+        padding: 1.3em;
+    }
+
+    @-webkit-keyframes opacity {
+        0% {
+            opacity: 0;
+            -webkit-transform: scale(3);
+            transform: scale(3);
+        }
+
+        100% {
+            opacity: 1;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+    }
+
+    @keyframes opacity {
+        0% {
+            opacity: 0;
+            -webkit-transform: scale(3);
+            transform: scale(3);
+        }
+
+        100% {
+            opacity: 1;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+    }
+
+    /*# sourceMappingURL=style.css.map */
 </style>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
 
 {% endblock style %}
 
 
 {% block main %}
-<div class="container-fluid px-sm-1 py-5 mx-auto ">
-    <div class="row">
-        <div class="col-lg-4 col-md-12">
-            <div class="d-flex">
-                <div class="card">
-                    <div class="d-flex flex-column thumbnails">
-                        <div id="f1" class="tb tb-active"> <img class="lazy thumbnail-img fit-image"
-                                data-src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}"> </div>
-                        <div id="f2" class="tb"> <img class="lazy thumbnail-img fit-image"
-                                data-src="https://picsum.photos/540/540"> </div>
-                        <div id="f3" class="tb"> <img class="lazy thumbnail-img fit-image"
-                                data-src="https://picsum.photos/560/560"> </div>
-                        <div id="f4" class="tb"> <img class="lazy thumbnail-img fit-image"
-                                data-src="https://picsum.photos/580/580"> </div>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>eCommerce Product Detail</title>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="container-fliud">
+                <div class="wrapper row">
+                    <div class="preview col-md-6">
+
+                        <div class="preview-pic tab-content">
+                            <div class="tab-pane active" id="pic-1"><img class="lazy"
+                                    data-src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}" /></div>
+                            <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
+                            <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
+                            <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
+                            <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" /></div>
+                        </div>
+                        <ul class="preview-thumbnail nav nav-tabs">
+                            <li class="active"><a data-target="#pic-1" data-toggle="tab"><img class="lazy"
+                                        data-src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}" /></a></li>
+                            <li><a data-target="#pic-2" data-toggle="tab"><img
+                                        src="http://placekitten.com/200/126" /></a></li>
+                            <li><a data-target="#pic-3" data-toggle="tab"><img
+                                        src="http://placekitten.com/200/126" /></a></li>
+                            <li><a data-target="#pic-4" data-toggle="tab"><img
+                                        src="http://placekitten.com/200/126" /></a></li>
+                            <li><a data-target="#pic-5" data-toggle="tab"><img
+                                        src="http://placekitten.com/200/126" /></a></li>
+
+                        </ul>
+
                     </div>
-                    <fieldset id="f11" class="active">
-                        <div class="product-pic"> <img class="pic0 lazy" data-src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}"> </div>
-                    </fieldset>
-                    <fieldset id="f21" class="">
-                        <div class="product-pic"> <img class="pic0 lazy" data-src="https://picsum.photos/540/540"> </div>
-                    </fieldset>
-                    <fieldset id="f31" class="">
-                        <div class="product-pic"> <img class="pic0 lazy" data-src="https://picsum.photos/560/560"> </div>
-                    </fieldset>
-                    <fieldset id="f41" class="">
-                        <div class="product-pic"> <img class="pic0 lazy" data-src="https://picsum.photos/580/580"> </div>
-                    </fieldset>
+                    <div class="details col-md-6">
+                        <h3 class="product-title">{{product.product_name}}</h3>
+                        <div class="rating">
+                            <div class="stars">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <span class="review-no">41 reviews</span>
+                        </div>
+                        <p class="product-description">Suspendisse quos? Tempus cras iure temporibus? Eu laudantium
+                            cubilia sem sem! Repudiandae et! Massa senectus enim minim sociosqu delectus posuere.</p>
+                        <h4 class="price">current price: <span>$180</span></h4>
+                        <p class="vote"><strong>91%</strong> of buyers enjoyed this product! <strong>(87 votes)</strong>
+                        </p>
+                        <h5 class="sizes">sizes:
+                            <span class="size" data-toggle="tooltip" title="small">s</span>
+                            <span class="size" data-toggle="tooltip" title="medium">m</span>
+                            <span class="size" data-toggle="tooltip" title="large">l</span>
+                            <span class="size" data-toggle="tooltip" title="xtra large">xl</span>
+                        </h5>
+                        <h5 class="colors">colors:
+                            <span class="color orange not-available" data-toggle="tooltip" title="Not In store"></span>
+                            <span class="color green"></span>
+                            <span class="color blue"></span>
+                        </h5>
+                        <div class="action">
+                            <button class="add-to-cart btn btn-default" type="button">add to cart</button>
+                            <button class="like btn btn-default" type="button"><span
+                                    class="fa fa-heart"></span></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="ml-5 mt-5 mr-5 col-lg-6 col-md-12 p-5  bg-light">
-            <h1 style="text-transform: capitalize;">{{product.product_name}}</h1>
-            <small>category>>{{product.desc}}</small>
-        </div>
-        <div class="">
-
-        </div>
     </div>
-</div>
+</body>
+
+</html>
+
 {% endblock main %}
 
 
@@ -123,9 +339,9 @@
 
 <script>
     $(document).ready(function () {
-        const myLazyLoad=new LazyLoad({
-        elements_selector:".lazy"
-    });
+        const myLazyLoad = new LazyLoad({
+            elements_selector: ".lazy"
+        });
 
 
         $(".tb").hover(function () {
@@ -158,32 +374,32 @@
 
         $(".tb").click(function () {
 
-$(".tb").removeClass("tb-active");
-$(this).addClass("tb-active");
+            $(".tb").removeClass("tb-active");
+            $(this).addClass("tb-active");
 
-current_fs = $(".active");
+            current_fs = $(".active");
 
-next_fs = $(this).attr('id');
-next_fs = "#" + next_fs + "1";
+            next_fs = $(this).attr('id');
+            next_fs = "#" + next_fs + "1";
 
-$("fieldset").removeClass("active");
-$(next_fs).addClass("active");
+            $("fieldset").removeClass("active");
+            $(next_fs).addClass("active");
 
-current_fs.animate({}, {
-    step: function () {
-        current_fs.css({
-            'display': 'none',
-            'position': 'relative'
+            current_fs.animate({}, {
+                step: function () {
+                    current_fs.css({
+                        'display': 'none',
+                        'position': 'relative'
+                    });
+                    next_fs.css({
+                        'display': 'block'
+                    });
+                }
+            });
         });
-        next_fs.css({
-            'display': 'block'
-        });
-    }
-});
-});
 
     });
-    
+
 
 </script>
 {% endblock script %}

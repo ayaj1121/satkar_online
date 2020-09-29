@@ -64,13 +64,13 @@ background-color:#DCDCDC;
 
 <div class="container-fluid pl-5 pr-5">
 {{products.paginator.num_pages}}
-<div class="row infinite-container">
+<div class="wrapper row infinite-container">
 	{% for product in products %}
 	<div class="col-lg-2 col-md-4 infinite-item" style="padding-bottom: 20px;">
-		<a href="#" class="text-dark" style="text-decoration: none;">
+		<a href="/shop/product/{{product.product_id}}" class="text-dark" style="text-decoration: none;">
 			<div class="thumb-wrapper">
 			<div class="img-box">
-				<img data-src="https://source.unsplash.com/random/50{{ forloop.counter|add:products.next_page_number }}*500{{ forloop.counter|add:products.next_page_number}}"
+				<img data-src="https://satkar.s3.us-east-2.amazonaws.com/{{product.img}}"
 					class="img lazy" alt="">
 			</div>
 			<div class="thumb-content">
@@ -85,9 +85,11 @@ background-color:#DCDCDC;
 						<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
 					</ul>
 				</div>
-				<button id="{{ product.product_id }}" href="#" class="btn btn-primary ml-1" onclick="cartclick(this.id)">Add to
+				<div class='d-flex'>
+				<button id="{{ product.product_id }}" href="#" class="btn btn-primary ml-2 col " onclick="cartclick(this.id)">Add to
 					Cart</button>
-					<button id="{{ product.product_id }}" href="#" class="btn btn-primary ml-5 " onclick="cartclick(this.id)"><i class="fas fa-shopping-cart"></i>Buy Now</button>
+					<button id="{{ product.product_id }}" href="#" class="btn btn-primary mr-2 col  " onclick="cartclick(this.id)"><i class="mr-2 fa fa-shopping-cart"></i>Buy Now</button>
+				</div>
 			</div>
 		</div></a>
 	</div>
@@ -130,6 +132,7 @@ background-color:#DCDCDC;
 		
 		onBeforePageLoad: function () {
 			$('.loading').show();
+
 		},
 		onAfterPageLoad: function ($item) {
 			$('.loading').hide();

@@ -39,7 +39,11 @@ def shop(request):
     return render(request,'shop/index.html',params)
 
 def about(request):
-    pass
+    return render(request,'shop/about.html')
+
+def contact(request):
+    return render(request,'shop/contact.html')
+
 
 def product(request,id):
     product=Product.objects.get(product_id=id)
@@ -56,7 +60,7 @@ def tracker(request):
     pass  
 
 def all(request):
-    smartphone=Product.objects.filter(desc="smartphone")
+    smartphone=Product.objects.filter(category="smartphone")
     infinite=list([])
     infinite1=list([])
     for j in range(0,5000):

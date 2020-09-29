@@ -28,8 +28,13 @@ urlpatterns = [
     path('about/',views.about,name='about'),
     path('tracker/',views.tracker,name=''),
     path('checkout/',views.checkout,name='checkout'),
+    path("shop/all/", views.all, name="all"),
+    path("shop/contact/", views.contact, name="contact"),
+
+
+    
     path('product/<int:id>',views.product),
-    path("all/", views.all, name="all"),
+    path('all/product/<int:id>',views.product),
     path('checkout/product/<int:id>',views.product),
 
 

@@ -54,16 +54,18 @@
                     <a class="nav-link " href="{% url 'about' %}" tabindex="-1" aria-disabled="true">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                 </li>
-                <li><a id="cart_pop1" data-toggle="popover" data-html="true" data-placement="bottom"  data-content="<h5>Empty Cart ! </h5>" class="nav-link" href="#"><i id="cart_count1" style="font-size:20px;"
-                            class="fa fa-shopping-cart text-light ">Cart()</i></a></li>
+                
              
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+            <ul class="navbar-nav ">
+            <li><a id="cart_pop1" data-toggle="popover" data-html="true" data-placement="bottom"  data-content="<h5>Empty Cart ! </h5>" class="nav-link" href="#"><i id="cart_count1" style="font-size:20px;"
+                            class="fa fa-shopping-cart text-light ">Cart()</i></a></li></ul>
         </div>
     </nav>
 
