@@ -85,7 +85,7 @@ background-color:#DCDCDC;
 						<li class="list-inline-item"><i class="fa fa-star-o"></i></li>
 					</ul>
 				</div>
-				<div class='d-flex'>
+				<div class='d-flex mb-2'>
 				<button id="{{ product.product_id }}" href="#" class="btn  ml-2 col  addtocart" onclick="cartclick(this.id)">Add to
 					Cart</button>
 					<button id="{{ product.product_id }}" href="#" class="btn  mr-2 col addtocart " onclick="cartclick(this.id)"><i class="mr-2 fa fa-shopping-cart"></i>Buy Now</button>
@@ -115,14 +115,23 @@ background-color:#DCDCDC;
 
 {% block script %}
 
-
-
 <script src={% static "shop/js/jquery.waypoints.js" %}></script>
 <script src={% static "shop/js/infinite.min.js" %}></script>
 
-
-
 <script >
+$(function () {
+                $('[data-toggle="popover"]').popover({
+                    html: true,
+                    sanitize: false,
+
+                })
+            })
+
+
+
+
+
+
 	const myLazyLoad = new LazyLoad({
 		elements_selector: ".lazy"
 	});
