@@ -131,12 +131,7 @@
 			sanitize: false,
 
 		})
-	})
-
-
-
-
-
+	});
 
 	const myLazyLoad = new LazyLoad({
 		elements_selector: ".lazy"
@@ -209,8 +204,10 @@
 	}
 
 	function updatecartbtn(id) {
-		document.getElementById("sp" + id).innerHTML = "<button id='minuscart" + id + "' class='btn addtocart minus mr-2' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
-			"<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn addtocart minus'>" + "+" + "</button>";
+		console.log("updatecart",document.getElementById("sp"+id));
+		if(document.getElementById("sp"+id) != null){
+		document.getElementById("sp"+id).innerHTML = "<button id='minuscart" + id + "' class='btn addtocart minus mr-2' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +"<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn addtocart minus'>" + "+" + "</button>";
+		}
 	}
 
 	function minuscart(id) {
@@ -263,8 +260,10 @@
 
 	function clearcart() {
 		for (var id in cart) {
-			document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn btn-primary' onclick='addtocartclick(this.id)''>Add to Cart</button>"
+			if(document.getElementById("sp"+id)!=null){
+			document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn addtocart' onclick='addtocartclick(this.id)''>Add to Cart</button>"
 			delete cart[id]
+			}
 		}
 		localStorage.clear()
 		$("#cart_pop1").popover('hide')
@@ -284,9 +283,10 @@
 		var total = 0
 		for (var i in cart) {
 			if (i != null) {
-				var price = parseInt(document.getElementById("price" + i).innerText)
+				console.log("pop",i);
+				var price = cartitemprice[i]
 				total = total + cart[i] * price
-				popstr = popstr + "<b>" + n + ") " + document.getElementById("productname" + i).innerText + "  </b>" + cart[i] + "x" + price + "=" + cart[i] * price + "<br>";
+				popstr = popstr + "<b>" + n + ") " + cartitem[i]+ "  </b>" + cart[i] + "x" + price + "=" + cart[i] * price + "<br>";
 				n = n + 1
 
 			}

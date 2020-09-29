@@ -52,11 +52,12 @@ def product(request,id):
 
 def checkout(request):
     return render(request,'shop/checkout.html')
-
+    
 def tracker(request):
     """
     docstring
     """
+    
     pass  
 
 def all(request):

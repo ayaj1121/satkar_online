@@ -293,8 +293,10 @@ Shop
             }
 
             function updatecartbtn(id) {
+                if(document.getElementById("sp" + id)!=null){
                 document.getElementById("sp" + id).innerHTML = "<button id='minuscart" + id + "' class='btn btn-primary minus mr-2' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
                     "<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn btn-primary minus'>" + "+" + "</button>";
+                }
             }
 
             function minuscart(id) {
@@ -347,8 +349,10 @@ Shop
 
             function clearcart() {
                 for (var id in cart) {
+                    if(document.getElementById("sp"+id)!=null){
                     document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn btn-primary' onclick='addtocartclick(this.id)''>Add to Cart</button>"
                     delete cart[id]
+                    }
                 }
                 localStorage.clear()
                 $("#cart_pop1").popover('hide')
@@ -368,9 +372,9 @@ Shop
                 var total = 0
                 for (var i in cart) {
                     if (i != null) {
-                        var price = parseInt(document.getElementById("price" + i).innerText)
+                        var price =cartitemprice[i]
                         total = total + cart[i] * price
-                        popstr = popstr + "<b>" + n + ") " + document.getElementById("productname" + i).innerText + "  </b>" + cart[i] + "x" + price + "=" + cart[i] * price + "<br>";
+                        popstr = popstr + "<b>" + n + ") " + cartitem[i]+ "  </b>" + cart[i] + "x" + price + "=" + cart[i] * price + "<br>";
                         n = n + 1
 
                     }
