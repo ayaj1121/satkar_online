@@ -4,6 +4,7 @@
 
 <style>
 
+   
     .minus,
     .plus {
         color: #333;
@@ -70,6 +71,7 @@
     }
 
     .container {
+        max-width: 2000px;
         background-color: #f2f2f2;
         padding: 5px 20px 15px 20px;
         border: 1px solid lightgrey;
@@ -126,6 +128,8 @@
             margin-bottom: 20px;
         }
     }
+
+    
 </style>
 {% endblock style  %}
 
@@ -134,10 +138,10 @@
 
 {% block main %}
 
-<div class="container mt-5 " style="max-width: 1700px;">
+<div class="container mt-5 " >
     <div class="row">
         <div class="col-75">
-            <div class="container">
+            <div class="container" id="payment">
                 <form action="/action_page.php">
 
                     <div class="row">
@@ -239,8 +243,8 @@
                 if (cart[id] != 0) {
                     console.log(cart[id], cartitem[id], cartitemprice[id])
                     totalprice = totalprice + cartitemprice[id]*cart[id]
-                    str = str + "<p id='cartlist" + cart[id] + "'><a href=product/" + id + ">" + cartitem[id] + "</a>"+"<span> x  "+cartitemprice[id]+"  </span>" + "<button id='minuscart" + id + "'class='btn btn-primary minus mr-2 ml-3' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
-                        "<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn btn-primary plus'>" + "+" + "</button>" + "<span class='price'>" + cartitemprice[id]*cart[id] + "</span></p>";
+                    str = str + "<p id='cartlist" + cart[id] + "'><a href=product/" + id + ">" + cartitem[id]+"</a>" + "<button id='minuscart" + id + "'class='btn btn-primary minus mr-2 ml-3' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
+                        "<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn btn-primary plus'>" + "+" + "</button>"+"<span> x  "+cartitemprice[id]+" = </span>" +"<span class='price'>" + cartitemprice[id]*cart[id] + "</span></p>";
                 } else {
                     delete cart[id]
                     delete cartitem[id]

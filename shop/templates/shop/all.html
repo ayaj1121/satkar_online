@@ -6,12 +6,12 @@
 
 {% block style %}
 <style>
-.btn {
+.addtocart {
 	color: #333;
 	border-radius: 0;
-	font-size: 11px;
+	font-size: 13px;
 	text-transform: uppercase;
-	font-weight: bold;
+	font-weight: bolder;
 	background: none;
 	border: 1px solid #ccc;
 	padding: 5px 10px;
@@ -29,7 +29,7 @@
 	border: #000000;
 }
 
-.btn:hover {
+.addtocart:hover {
 	color: #fff;
 	background: #000000;
 	border-color: #000000;
@@ -86,9 +86,9 @@ background-color:#DCDCDC;
 					</ul>
 				</div>
 				<div class='d-flex'>
-				<button id="{{ product.product_id }}" href="#" class="btn btn-primary ml-2 col " onclick="cartclick(this.id)">Add to
+				<button id="{{ product.product_id }}" href="#" class="btn  ml-2 col  addtocart" onclick="cartclick(this.id)">Add to
 					Cart</button>
-					<button id="{{ product.product_id }}" href="#" class="btn btn-primary mr-2 col  " onclick="cartclick(this.id)"><i class="mr-2 fa fa-shopping-cart"></i>Buy Now</button>
+					<button id="{{ product.product_id }}" href="#" class="btn  mr-2 col addtocart " onclick="cartclick(this.id)"><i class="mr-2 fa fa-shopping-cart"></i>Buy Now</button>
 				</div>
 			</div>
 		</div></a>

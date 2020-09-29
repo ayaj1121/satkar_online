@@ -45,6 +45,30 @@ Shop
     background-color: #fff;
 }
 
+.showall{
+	color: #333;
+	border-radius: 0;
+	font-size: 11px;
+	text-transform: uppercase;
+	font-weight: bold;
+	background: none;
+	border: 1px solid #ccc;
+	padding: 5px 10px;
+	margin-top: 5px;
+    line-height: 16px;
+    background-color: #ccc;
+}
+
+.showall:hover,.showall:focus{
+	color: #fff;
+	background: #000;
+	border-color: #000;
+	box-shadow: none;
+}
+
+
+
+
 </style>
 {% endblock style %}
 
@@ -119,7 +143,7 @@ Shop
 
         <div class="row">
             <div class="col-md-12">
-                <h2>Trending Products in <b> {{i.0.category}}</b></h2>
+                <div ><h2 class='m-0'>Trending Products in <b> {{i.0.category}}</b></h2></div><div class='text-right mr-5' ><a href="/shop/all" ><button class="btn showall">show all</button></a></div>
                 <div id="myCarousel{{n}}" class="carousel slide" data-ride="carousel" data-interval="0">
                     <!-- Carousel indicators -->
                     <ol class="carousel-indicators">
