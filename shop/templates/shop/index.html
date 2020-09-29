@@ -377,7 +377,7 @@ Shop
                 }
                 console.log("popstr", popstr);
                 if (popstr != "") {
-                    popstr = "<b style='font-size:'50'px;'><pre> product name    Qty Price Amount</pre></b>" + popstr + "<br><span>----------------------------------------------------</span><br><pre  class=' text-info'>" + "               total amount=" + total + "</pre>";
+                    popstr = "<b style='font-size:'50'px;'><pre> product name    Qty Price Amount</pre></b>" + popstr + "<br><span>----------------------------------------------------</span><br><pre  class=' text-success'>" + "               total amount=" + total + "</pre>";
                     popstr = popstr + "<br><input type='button' onclick='clearcart()' class='btn btn-danger mr-3' value='clear'><a href='{% url 'checkout' %}' ><input type='button' class='btn btn-primary' value='checkout'></a> </div>";
                 }
 
