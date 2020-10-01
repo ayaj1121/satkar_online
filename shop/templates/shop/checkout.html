@@ -243,7 +243,7 @@
                 if (cart[id] != 0) {
                     console.log(cart[id], cartitem[id], cartitemprice[id])
                     totalprice = totalprice + cartitemprice[id]*cart[id]
-                    str = str + "<p id='cartlist" + cart[id] + "'><a href=product/" + id + ">" + cartitem[id]+"</a>" + "<button id='minuscart" + id + "'class='btn btn-primary minus mr-2 ml-3' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
+                    str = str + "<p id='cartlist" + cart[id] + "'><a href='product/"+ id + "'>" + cartitem[id]+"</a>" + "<button id='minuscart" + id + "'class='btn btn-primary minus mr-2 ml-3' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
                         "<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn btn-primary plus'>" + "+" + "</button>"+"<span> x  "+cartitemprice[id]+" = </span>" +"<span class='price'>" + cartitemprice[id]*cart[id] + "</span></p>";
                 } else {
                     delete cart[id]

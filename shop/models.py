@@ -12,5 +12,4 @@ class Product(models.Model):
     discounted_price=models.IntegerField(default=0)
     
 
-
-    
+   

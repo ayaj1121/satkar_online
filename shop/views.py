@@ -1,12 +1,16 @@
+from django.contrib.auth import authenticate, login
 from django.http import request
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 # Create your views here.
-from .models import Product
+from .models import *
+from .forms import *
+
 from math import ceil
 from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.generic.list import ListView
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # class PostsView(ListView):
 #     model = Product
@@ -16,9 +20,47 @@ from django.views.generic.list import ListView
 #     template_name = 'shop/all.html'
 #     ordering=['product_id']
 
+def registeruser(request):
+    if request.method == 'POST':
+        print("POST")
+        form=RegisterUser(request.POST)
+        print(form.is_valid)
+        if form.is_valid():
+            user=form.save()
+            user.set_password(form.cleaned_data.get("password"))
+            user.save()
+            print(form.cleaned_data.get("username"))
+            print(form.cleaned_data.get("password"))
+            print(form.cleaned_data.get("email"))
+            print(form)
+            return redirect('about')
+
+
+    return redirect('shop')
+
+def loginuser(request):
+    print(request)  
+    if request.method == 'POST':
+        email=request.POST.get('lemail')
+        password=request.POST.get('lpassword')
+        print(email,password)
+        user=User.objects.get(email=email)
+        print(user.username)
+        user=authenticate(request,username=user.username,password= password)
+        print(user)
+        if user is not None:
+            print('user')
+            messages.add_message(request,messages.SUCCESS,"account exist")
+            login(request,user)
+            return redirect('shop')
+
+    
+    return redirect('shop')
+        
 
 
 def shop(request):
+    rform=RegisterUser()
     earphone=Product.objects.filter(category="earphone")
     smartphone=Product.objects.filter(category="smartphone")
     clothing=Product.objects.filter(category="clothing")
@@ -35,11 +77,12 @@ def shop(request):
     smartphone_slides=range(ceil(len(smartphone)/6))
     clothing_slides=range(ceil(len(clothing)/6))
     infinite1=range(ceil(len(infinite1)/6))
-    params={"products":temp,"slides":[earphone_slides,smartphone_slides,clothing_slides,infinite1],"num_pro":range(len(temp)),"iter":zip(temp,range(len(temp)))}
+    params={"products":temp,"slides":[earphone_slides,smartphone_slides,clothing_slides,infinite1],"num_pro":range(len(temp)),"iter":zip(temp,range(len(temp))),'form':rform}
     return render(request,'shop/index.html',params)
 
 def about(request):
-    return render(request,'shop/about.html')
+    return render(request,'shop/about.html',{'request':request})
+
 
 def contact(request):
     return render(request,'shop/contact.html')

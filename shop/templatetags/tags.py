@@ -4,7 +4,6 @@ register=template.Library()
 
 @register.filter
 def modulo(num,val):
-    print("first",num,val)
     return num % val
 
 
