@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout  
 from django.http import request
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from .models import *
 from .forms import *
 
-from math import ceil
+from math import ceil, log
 from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
@@ -58,6 +58,9 @@ def loginuser(request):
     return redirect('shop')
         
 
+def logoutuser(request):
+    logout(request)
+    return redirect('shop')
 
 def shop(request):
     rform=RegisterUser()

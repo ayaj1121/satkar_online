@@ -75,6 +75,8 @@ Shop
 
 
 {% block main %}
+{{request.user.username}}
+{{request.user.is_authenticated}}
 
 <div class="container">
     <main role="main">

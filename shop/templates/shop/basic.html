@@ -87,14 +87,22 @@
                     <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                 </li>
 
-
             </ul>
+
 
                 {% if not request.user.is_authenticated %}
                 <button type="button" id="login" class="btn btn-info btn-round mr-3"  data-toggle="modal" data-target="#loginModal">
+                <i class="fa fa-user-circle" aria-hidden="true"></i>
+
                     Login/Signup
                 </button>
                 {% endif %}
+                {% if  request.user.is_authenticated %}
+                    <span class='text-light mr-3'> <i class="fa fa-user-circle mr-2" aria-hidden="true"></i>{{ request.user.username}}</span>
+                    <a href="{% url 'logout' %}"<button  class="btn btn-info btn-round mr-3 btn-danger" ><i class='fa fa-sign-out '  aria-hidden="true"></i>Logout</button></a>
+
+                {% endif %}
+
 
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
