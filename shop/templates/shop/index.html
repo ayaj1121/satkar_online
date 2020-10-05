@@ -75,6 +75,8 @@ Shop
 
 
 {% block main %}
+{{cart.cart}}
+{{message}}
 {{request.user.username}}
 {{request.user.is_authenticated}}
 
@@ -235,6 +237,7 @@ Shop
 
 
         <script>
+            
             $(function () {
                 $('[data-toggle="popover"]').popover({
                     html: true,
@@ -247,9 +250,11 @@ Shop
             });
 
             if (localStorage.getItem('cart') == null) {
-                var cart = {}
-                var cartitem = {}
-                var cartitemprice = {}
+                var temp={{cart|safe}};
+                var cart = temp["cart"];
+                var cartitem = temp["cartitem"];
+                var cartitemprice = temp["cartitemprice"];
+
 
             }
             else {
@@ -265,6 +270,12 @@ Shop
                 console.log(count);
                 document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
                 updatecartpop(cart)
+                for (const id in cart) {
+                        console.log(id);
+                        updatecartbtn(id)
+                    
+                    
+                }
 
             }
 

@@ -63,9 +63,9 @@
 
 <div class="container-fluid pl-5 pr-5">
 	{{products.paginator.num_pages}}
-	<div class="wrapper row infinite-container">
+	<div class=" row infinite-container">
 		{% for product in products %}
-		<div class="col-lg-2 col-md-4 infinite-item" style="padding-bottom: 20px;">
+		<div class="col-xl-2 col-lg-4 infinite-item" style="padding-bottom: 20px;">
 			<a href="/shop/product/{{product.product_id}}" class="text-dark" style="text-decoration: none;">
 				<div class="thumb-wrapper">
 					<div class="img-box">
@@ -98,23 +98,20 @@
 				</div>
 			</div>
 		</div>
+	</div>	
+		{% endfor %}
+
 	</div>
 
 
 
-	{% endfor %}
-</div>
-
-
-
 {% if products.has_next %}
-<a class="infinite-more-link" href="?page={{ products.next_page_number }}">More</a>
+<a class="infinite-more-link" href="?page={{ products.next_page_number }}"></a>
 {% endif %}
 
 
 <div class="loading" style="display: none;">
 	Loading...
-</div>
 </div>
 
 {% endblock main %}

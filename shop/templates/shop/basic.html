@@ -62,6 +62,7 @@
 </head>
 
 <body>
+
     <nav class="navbar navbar-expand-lg navbar-inverse navbar-dark bg-dark navbar-fixed-top">
         <a class="navbar-brand" href="#">
             <h1>Satkar </h1>
@@ -77,15 +78,15 @@
                     <a class="nav-link" href="{% url 'shop' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link " href="{% url 'about' %}" tabindex="-1" aria-disabled="true">About</a>
+                    <a class="nav-link" href="#">Orders</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'about' %}" tabindex="-1" aria-disabled="true">About</a>
+                </li>
+              
 
             </ul>
 
@@ -99,7 +100,9 @@
                 {% endif %}
                 {% if  request.user.is_authenticated %}
                     <span class='text-light mr-3'> <i class="fa fa-user-circle mr-2" aria-hidden="true"></i>{{ request.user.username}}</span>
-                    <a href="{% url 'logout' %}"<button  class="btn btn-info btn-round mr-3 btn-danger" ><i class='fa fa-sign-out '  aria-hidden="true"></i>Logout</button></a>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <button type='button' id="logout" class="btn btn-info btn-round mr-3 btn-danger" ><i class='fa fa-sign-out '  aria-hidden="true"></i>Logout</button></form>
 
                 {% endif %}
 
@@ -119,11 +122,15 @@
 
 
         {% block main %} {% endblock main %}
+        
+
         <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.2/dist/lazyload.min.js"></script>
 
 
 
-        <script>
+<script>
+
+
 $(document).ready(function() {            
      $('#loginModal').modal('show');
   $(function () {
@@ -132,10 +139,33 @@ $(document).ready(function() {
 });
 
 
+{% if request.user.id %}
+document.getElementById("logout").onclick=function(){
+console.log(JSON.parse(localStorage["cart"]))
+console.log(cart)
+$.ajax({
+    method:'POST',
+    url:"{% url 'logout' %}",
+    data:{"cart":JSON.stringify(cart),"csrfmiddlewaretoken": '{{ csrf_token }}',"temp":5},
+    
+    success:function(data){
+        console.log(data)
+        window.location.href="http://127.0.0.1:8000/shop/";
+    },
+});
+}
+{% endif %}
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+}
+
+
         </script>
 
         {% block script %}
         {% endblock script %}
+
 
 
 
