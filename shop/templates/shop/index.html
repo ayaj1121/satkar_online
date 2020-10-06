@@ -73,14 +73,24 @@ Shop
 {% endblock style %}
 
 
-
 {% block main %}
-{{cart.cart}}
-{{message}}
+
+
+
 {{request.user.username}}
-{{request.user.is_authenticated}}
+
 
 <div class="container">
+    <div id='alert' >
+{% if messages %}
+    {% for message in messages %}
+<div class="alert alert-{{message.tags}}">
+  <strong>{{message}}</strong> 
+</div>
+    {% endfor %}
+{% endif %}
+</div>
+
     <main role="main">
 
         <div id="myCarousel" class="carousel slide maincarousel" data-ride="carousel">
@@ -238,6 +248,10 @@ Shop
 
         <script>
             
+    $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+                    $(".alert").alert('close');
+                        });
+
             $(function () {
                 $('[data-toggle="popover"]').popover({
                     html: true,
@@ -249,14 +263,27 @@ Shop
                 elements_selector: ".lazy"
             });
 
+{% if request.user.is_authenticated %}
             if (localStorage.getItem('cart') == null) {
                 var temp={{cart|safe}};
                 var cart = temp["cart"];
                 var cartitem = temp["cartitem"];
                 var cartitemprice = temp["cartitemprice"];
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    localStorage.setItem('cartitem', JSON.stringify(cartitem));
+                    localStorage.setItem('cartitemprice', JSON.stringify(cartitemprice));
 
+                var count = 0
+                for (var id in cart) {
+                    count = count + cart[id];
+                    updatecartbtn(id)
+                }
+                console.log(count);
+                document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
+                updatecartpop(cart)
 
             }
+
             else {
                 cart = JSON.parse(localStorage.getItem('cart'));
                 cartitem = JSON.parse(localStorage.getItem('cartitem'));
@@ -270,39 +297,47 @@ Shop
                 console.log(count);
                 document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
                 updatecartpop(cart)
-                for (const id in cart) {
-                        console.log(id);
-                        updatecartbtn(id)
-                    
-                    
-                }
-
+                
             }
 
 
+{% endif %}
             function addtocartclick(id) {
-                id = id.toString();
-                if (cart[id] != undefined) {
-                    cart[id] = cart[id] + 1;
 
-                }
-                else {
-                    cart[id] = 1;
-                    cartitem[id] = document.getElementById("productname" + id).innerText;
-                    cartitemprice[id] = parseInt(document.getElementById("price" + id).innerText);
-                }
-                var count = 0
-                for (var i in cart) {
-                    count = count + cart[i];
-                }
-                localStorage.setItem('cart', JSON.stringify(cart));
-                localStorage.setItem('cartitem', JSON.stringify(cartitem));
-                localStorage.setItem('cartitemprice', JSON.stringify(cartitemprice));
-                document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
-                updatecartbtn(id)
-                updatecartpop(cart)
+                 var usr=String("{{ request.user.is_authenticated }}") 
 
+                if (usr != 'False')
+                {
+                    id = id.toString();
+                    if (cart[id] != undefined) {
+                        cart[id] = cart[id] + 1;
 
+                    }
+                    else {
+                        cart[id] = 1;
+                        cartitem[id] = document.getElementById("productname" + id).innerText;
+                        cartitemprice[id] = parseInt(document.getElementById("price" + id).innerText);
+                    }
+                    var count = 0
+                    for (var i in cart) {
+                        count = count + cart[i];
+                    }
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    localStorage.setItem('cartitem', JSON.stringify(cartitem));
+                    localStorage.setItem('cartitemprice', JSON.stringify(cartitemprice));
+                    document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
+                    updatecartbtn(id)
+                    updatecartpop(cart)
+                    }
+                    else{
+                
+                    document.getElementById('alert').innerHTML="<div class='alert alert-danger' role='alert'>"+"LOGIN TO ADD ITEMS TO CART"+"</div>"
+                     
+                    $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+                    $(".alert").alert('close');
+                        });
+                }
+                    
 
             }
 
@@ -354,12 +389,8 @@ Shop
                 updatecartpop(cart)
                 $("#cart_pop1").popover('hide')
 
-
-
-
-
-
             }
+
 
             function clearcart() {
                 for (var id in cart) {
@@ -404,7 +435,6 @@ Shop
                 document.getElementById("cart_pop1").setAttribute('data-content', popstr);
 
             }
-
 
 
 

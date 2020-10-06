@@ -53,18 +53,25 @@ def registeruser(request):
     if request.method == 'POST':
         form=RegisterUser(request.POST)
         print(form.is_valid)
-        if not form.is_valid() and User.objects.get(email=form.cleaned_data.get("email")):
+        if form.is_valid():
+            if User.objects.get(email=form.cleaned_data.get("email")):
+                messages.add_message(request,messages.ERROR,"User Exist")
+                return redirect('shop')
+            else:    
+                user=form.save()
+                user.set_password(form.cleaned_data.get("password"))
+                user.save()
+                Customer.objects.create(user=user,phone=request.POST['phone'])
+                print(form.cleaned_data.get("username"))
+                print(form.cleaned_data.get("password"))
+                print(form.cleaned_data.get("email"))
+                print(form)
+                return redirect('shop')
+        else:
             messages.add_message(request,messages.ERROR,"User Exist")
             return redirect('shop')
-        else:    
-            user=form.save()
-            user.set_password(form.cleaned_data.get("password"))
-            user.save()
-            print(form.cleaned_data.get("username"))
-            print(form.cleaned_data.get("password"))
-            print(form.cleaned_data.get("email"))
-            print(form)
-            return redirect('shop')
+
+
 
 
 
@@ -89,13 +96,12 @@ def loginuser(request):
         
 @login_required(login_url='shop')
 def logoutuser(request):
-    print(request.POST["temp"])
-    print(request.POST["cart"])
+    print(json.loads(request.POST.get("cart")))
     customer=Customer.objects.get(user=request.user.id)
     customer.cart["cart"]=json.loads(request.POST["cart"])
     customer.save()
     logout(request)
-    return JsonResponse({"status":"success"})
+    return redirect('shop')
 
 def shop(request):
     rform=RegisterUser()

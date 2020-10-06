@@ -54,6 +54,15 @@
   padding: 0.3rem 0rem;
 }
 
+.alert {
+    position:fixed; 
+    top: 0px; 
+    left: 0px; 
+    width: 100%;
+    z-index:9999; 
+    border-radius:0px
+}
+
     </style>
     {% block style %}
     {% endblock style %}
@@ -100,9 +109,10 @@
                 {% endif %}
                 {% if  request.user.is_authenticated %}
                     <span class='text-light mr-3'> <i class="fa fa-user-circle mr-2" aria-hidden="true"></i>{{ request.user.username}}</span>
-                    <form action="" method="POST">
+                    <form id="logoutform" action="{% url 'logout' %}" method="POST" onsubmit="logoutform()">
                         {% csrf_token %}
-                        <button type='button' id="logout" class="btn btn-info btn-round mr-3 btn-danger" ><i class='fa fa-sign-out '  aria-hidden="true"></i>Logout</button></form>
+                        <button type='submit' id="logoutbtn"  class="btn btn-info btn-round mr-3 btn-danger" ><i class='fa fa-sign-out '  aria-hidden="true"></i>Logout</button>
+                    </form>
 
                 {% endif %}
 
@@ -111,11 +121,15 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+
+            {% if request.user.is_authenticated %}
             <ul class="navbar-nav ">
                 <li><a id="cart_pop1" data-toggle="popover" data-html="true" data-placement="bottom"
                         data-content="<h5>Empty Cart ! </h5>" class="nav-link" href="#"><i id="cart_count1"
                             style="font-size:20px;" class="fa fa-shopping-cart text-light ">Cart()</i></a></li>
             </ul>
+            {% endif %}
+
         </div>
     </nav>
   
@@ -139,34 +153,21 @@ $(document).ready(function() {
 });
 
 
+
 {% if request.user.id %}
-document.getElementById("logout").onclick=function(){
-console.log(JSON.parse(localStorage["cart"]))
-console.log(cart)
-$.ajax({
-    method:'POST',
-    url:"{% url 'logout' %}",
-    data:{"cart":JSON.stringify(cart),"csrfmiddlewaretoken": '{{ csrf_token }}',"temp":5},
-    
-    success:function(data){
-        console.log(data)
-        window.location.href="http://127.0.0.1:8000/shop/";
-    },
-});
+
+function logoutform(){
+localStorage.clear()
+document.getElementById("logoutform").innerHTML +="<input name='cart' type='hidden' value="+JSON.stringify(cart)+">"
+alert(JSON.stringify(cart))
 }
+
 {% endif %}
-function showPage() {
-  document.getElementById("loader").style.display = "none";
-  document.getElementById("myDiv").style.display = "block";
-}
 
-
-        </script>
+</script>
 
         {% block script %}
         {% endblock script %}
-
-
 
 
 </body>
