@@ -75,22 +75,9 @@ Shop
 
 {% block main %}
 
-
-
 {{request.user.username}}
 
-
 <div class="container">
-    <div id='alert' >
-{% if messages %}
-    {% for message in messages %}
-<div class="alert alert-{{message.tags}}">
-  <strong>{{message}}</strong> 
-</div>
-    {% endfor %}
-{% endif %}
-</div>
-
     <main role="main">
 
         <div id="myCarousel" class="carousel slide maincarousel" data-ride="carousel">

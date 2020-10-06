@@ -1,4 +1,6 @@
 {% load static%}
+{% load tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,6 +73,22 @@
 </head>
 
 <body>
+    <div id='alert' >
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == "error"  %}
+<div class="alert alert-danger">
+  <strong>{{message}}</strong> 
+</div>
+    {% endif %}
+    {% if message.tags == "success"  %}
+<div class="alert alert-success ">
+  <strong>{{message}}</strong> 
+</div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+</div>
 
     <nav class="navbar navbar-expand-lg navbar-inverse navbar-dark bg-dark navbar-fixed-top">
         <a class="navbar-brand" href="#">

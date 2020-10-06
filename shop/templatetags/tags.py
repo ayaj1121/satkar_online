@@ -17,3 +17,12 @@ def returnitem(l, i):
 @register.filter
 def pages(num,val):
     return num/val
+
+@register.filter
+def alerts(msg):
+    if msg == "success":
+        return "success"
+    elif msg == "error":
+        return "danger"
+    else:
+        return ""
