@@ -1,0 +1,47 @@
+{% include 'shop/basic.html' %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% block script %}
+<script>
+    cart = JSON.parse(localStorage.getItem('cart'));
+    cartitem = JSON.parse(localStorage.getItem('cartitem'));
+    cartitemprice = JSON.parse(localStorage.getItem('cartitemprice'));
+
+    var count = 0
+    for (var id in cart) {
+        count = count + cart[id];
+
+    }
+    console.log(count);
+    document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
+    updatecartpop(cart)
+
+    function clearcart() {
+        for (var id in cart) {
+            if (document.getElementById("sp" + id) != null) {
+                document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn btn-primary' onclick='addtocartclick(this.id)''>Add to Cart</button>"
+                delete cart[id]
+            }
+        }
+        localStorage.clear()
+        $("#cart_pop1").popover('hide')
+        document.getElementById("cart_count1").innerText = "Cart(" + 0 + ")";
+        updatecartpop(cart)
+        document.getElementById("cart_pop1").setAttribute('data-content', "<h5 >Empty Cart!</h5>");
+
+    }
+
+
+</script>
+
+{% endblock script %}

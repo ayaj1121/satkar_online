@@ -81,17 +81,18 @@ def loginuser(request):
         email=request.POST.get('lemail')
         password=request.POST.get('lpassword')
         print(email,password)
-        user=User.objects.get(email=email)
-        print(user.username)
-        user=authenticate(request,username=user.username,password= password)
-        print(user)
+        try:
+            user=User.objects.get(email=email)
+        except User.DoesNotExist:
+            user=None
         if user is not None:
-            print('user')
+            user=authenticate(request,username=user.username,password= password)
+            print(user)
             messages.add_message(request,messages.SUCCESS,"account loggedin")
             login(request,user)
-            return redirect('shop')
+        else:
+            messages.error(request,"Uer doesnot exist please Signup !")
 
-    
     return redirect('shop')
         
 @login_required(login_url='shop')
@@ -148,9 +149,8 @@ def product(request,id):
 def checkout(request):
     return render(request,'shop/checkout.html')
     
-def tracker(request):
-
-    pass  
+def orders(request):
+    return render(request,'shop/orders.html')
 
 def all(request):
     smartphone=Product.objects.filter(category="smartphone")
@@ -172,3 +172,26 @@ def all(request):
         products = paginator.page(paginator.num_pages)
     print("pro",products)
     return render(request, 'shop/all.html', {'products': products})
+
+@login_required(login_url='shop')
+def placeorder(request):
+
+    if request.method == 'POST':
+        fname=request.POST['firstname']
+        email=request.POST['email']
+        address=request.POST['address']
+        city=request.POST['city']
+        phone=request.POST['phone']
+        state=request.POST['state']
+        zipcode=request.POST['zip']
+        totalamount=request"[plo,]
+        user=request.user.id
+
+        Order.create
+
+
+
+        
+
+
+    return

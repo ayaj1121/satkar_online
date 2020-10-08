@@ -39,6 +39,7 @@ class Order(models.Model):
     status=models.JSONField(default=dict,blank=True,null=True)
     address=models.JSONField(default=dict,blank=True,null=True)
     transac_id=models.CharField(max_length=50,default='')
+    orderitems=models.JSONField(default=dict,blank=True,null=True)
 
 
 

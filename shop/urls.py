@@ -28,10 +28,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.shop,name="shop"),
     path('about/',views.about,name='about'),
-    path('tracker/',views.tracker,name=''),
     path('checkout/',views.checkout,name='checkout'),
     path("all/", views.all, name="all"),
     path("contact/", views.contact, name="contact"),
+    path("orders/", views.orders, name="orders"),
+    path("checkout/placeorder/", views.orders, name="placeorderorder"),
+
+
 
     path('login/',views.loginuser,name='login'),
     path('register/',views.registeruser,name='register'),

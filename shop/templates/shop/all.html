@@ -150,160 +150,178 @@
 	});
 
 
+{% if request.user.is_authenticated %}
+if (localStorage.getItem('cart') == null) {
+    var temp={{cart|safe}};
+    var cart = temp["cart"];
+    var cartitem = temp["cartitem"];
+    var cartitemprice = temp["cartitemprice"];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cartitem', JSON.stringify(cartitem));
+        localStorage.setItem('cartitemprice', JSON.stringify(cartitemprice));
 
-	if (localStorage.getItem('cart') == null) {
-		var cart = {}
-		var cartitem = {}
-		var cartitemprice = {}
+    var count = 0
+    for (var id in cart) {
+        count = count + cart[id];
+        updatecartbtn(id)
+    }
+    console.log(count);
+    document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
+    updatecartpop(cart)
 
-	}
-	else {
-		cart = JSON.parse(localStorage.getItem('cart'));
-		cartitem = JSON.parse(localStorage.getItem('cartitem'));
-		cartitemprice = JSON.parse(localStorage.getItem('cartitemprice'));
+}
 
-		var count = 0
-		for (var id in cart) {
-			count = count + cart[id];
-			updatecartbtn(id)
-		}
-		console.log(count);
-		document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
-		updatecartpop(cart)
+else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    cartitem = JSON.parse(localStorage.getItem('cartitem'));
+    cartitemprice = JSON.parse(localStorage.getItem('cartitemprice'));
 
-	}
-
-
-	function addtocartclick(id) {
-		id = id.toString();
-		if (cart[id] != undefined) {
-			cart[id] = cart[id] + 1;
-
-		}
-		else {
-			cart[id] = 1;
-			cartitem[id] = document.getElementById("productname" + id).innerText;
-			cartitemprice[id] = parseInt(document.getElementById("price" + id).innerText);
-		}
-		var count = 0
-		for (var i in cart) {
-			count = count + cart[i];
-		}
-		localStorage.setItem('cart', JSON.stringify(cart));
-		localStorage.setItem('cartitem', JSON.stringify(cartitem));
-		localStorage.setItem('cartitemprice', JSON.stringify(cartitemprice));
-		document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
-		updatecartbtn(id)
-		updatecartpop(cart)
+    var count = 0
+    for (var id in cart) {
+        count = count + cart[id];
+        updatecartbtn(id)
+    }
+    console.log(count);
+    document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
+    updatecartpop(cart)
+    
+}
 
 
+{% endif %}
+function addtocartclick(id) {
 
-	}
+     var usr=String("{{ request.user.is_authenticated }}") 
 
-	function updatecartbtn(id) {
-		console.log("updatecart",document.getElementById("sp"+id));
-		if(document.getElementById("sp"+id) != null){
-		document.getElementById("sp"+id).innerHTML = "<button id='minuscart" + id + "' class='btn addtocart minus mr-2' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +"<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn addtocart minus'>" + "+" + "</button>";
-		}
-	}
+    if (usr != 'False')
+    {
+        id = id.toString();
+        if (cart[id] != undefined) {
+            cart[id] = cart[id] + 1;
 
-	function minuscart(id) {
-		id = id.slice(9,)
-		console.log(id, cart[id]);
-		cart[id] = cart[id] - 1;
-		if (cart[id] == 0) {
-			document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn addtocart' onclick='addtocartclick(this.id)''>Add to Cart</button>"
-			delete cart[id];
-		}
-		else {
-			updatecartbtn(id);
-		}
-		var count = 0
-		for (var i in cart) {
-			count = count + cart[i];
-		}
-		localStorage.setItem('cart', JSON.stringify(cart));
-		document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
-		updatecartpop(cart)
-		if (count == 0) {
-			document.getElementById("cart_pop1").setAttribute('data-content', "<h5 >Empty Cart!</h5>");
+        }
+        else {
+            cart[id] = 1;
+            cartitem[id] = document.getElementById("productname" + id).innerText;
+            cartitemprice[id] = parseInt(document.getElementById("price" + id).innerText);
+        }
+        var count = 0
+        for (var i in cart) {
+            count = count + cart[i];
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cartitem', JSON.stringify(cartitem));
+        localStorage.setItem('cartitemprice', JSON.stringify(cartitemprice));
+        document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
+        updatecartbtn(id)
+        updatecartpop(cart)
+        }
+        else{
+    
+        document.getElementById('alert').innerHTML="<div class='alert alert-danger' role='alert'>"+"LOGIN TO ADD ITEMS TO CART"+"</div>"
+         
+        $(".alert").fadeTo(2000, 500).slideUp(500, function(){
+        $(".alert").alert('close');
+            });
+    }
+        
 
-		}
+}
 
-		$("#cart_pop1").popover('hide')
+function updatecartbtn(id) {
+    if(document.getElementById("sp" + id)!=null){
+    document.getElementById("sp" + id).innerHTML = "<button id='minuscart" + id + "' class='btn btn-primary minus mr-2' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
+        "<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn btn-primary minus'>" + "+" + "</button>";
+    }
+}
 
+function minuscart(id) {
+    id = id.slice(9,)
+    console.log(id, cart[id]);
+    cart[id] = cart[id] - 1;
+    if (cart[id] == 0) {
+        document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn btn-primary' onclick='addtocartclick(this.id)''>Add to Cart</button>"
+        delete cart[id];
+    }
+    else {
+        updatecartbtn(id);
+    }
+    var count = 0
+    for (var i in cart) {
+        count = count + cart[i];
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
+    updatecartpop(cart)
+    if (count == 0) {
+        document.getElementById("cart_pop1").setAttribute('data-content', "<h5 >Empty Cart!</h5>");
 
-	}
-	function pluscart(id) {
-		id = id.slice(8,)
-		cart[id] = cart[id] + 1;
-		console.log(id, cart[id]);
-		updatecartbtn(id);
-		var count = 0
-		for (var i in cart) {
-			count = count + cart[i];
-		}
-		localStorage.setItem('cart', JSON.stringify(cart));
-		document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
-		updatecartpop(cart)
-		$("#cart_pop1").popover('hide')
+    }
 
-
-
-
-
-
-	}
-
-	function clearcart() {
-		for (var id in cart) {
-			if(document.getElementById("sp"+id)!=null){
-			document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn addtocart' onclick='addtocartclick(this.id)''>Add to Cart</button>"
-			delete cart[id]
-			}
-		}
-		localStorage.clear()
-		$("#cart_pop1").popover('hide')
-		document.getElementById("cart_count1").innerText = "Cart(" + 0 + ")";
-		updatecartpop(cart)
-		document.getElementById("cart_pop1").setAttribute('data-content', "<h5 >Empty Cart!</h5>");
-
-	}
-
+    $("#cart_pop1").popover('hide')
 
 
+}
+function pluscart(id) {
+    id = id.slice(8,)
+    cart[id] = cart[id] + 1;
+    console.log(id, cart[id]);
+    updatecartbtn(id);
+    var count = 0
+    for (var i in cart) {
+        count = count + cart[i];
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById("cart_count1").innerText = "Cart(" + count + ")";
+    updatecartpop(cart)
+    $("#cart_pop1").popover('hide')
+
+}
 
 
-	function updatecartpop(cart) {
-		var popstr = ""
-		var n = 1
-		var total = 0
-		for (var i in cart) {
-			if (i != null) {
-				console.log("pop",i);
-				var price = cartitemprice[i]
-				total = total + cart[i] * price
-				popstr = popstr + "<b>" + n + ") " + cartitem[i]+ "  </b>" + cart[i] + "x" + price + "=" + cart[i] * price + "<br>";
-				n = n + 1
+function clearcart() {
+    for (var id in cart) {
+        if(document.getElementById("sp"+id)!=null){
+        document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn btn-primary' onclick='addtocartclick(this.id)''>Add to Cart</button>"
+        delete cart[id]
+        }
+    }
+    localStorage.clear()
+    $("#cart_pop1").popover('hide')
+    document.getElementById("cart_count1").innerText = "Cart(" + 0 + ")";
+    updatecartpop(cart)
+    document.getElementById("cart_pop1").setAttribute('data-content', "<h5 >Empty Cart!</h5>");
 
-			}
-		}
-		console.log("popstr", popstr);
-		if (popstr != "") {
-			popstr = "<b style='font-size:'50'px;'><pre> product name    Qty Price Amount</pre></b>" + popstr + "<br><span>----------------------------------------------------</span><br><pre  class=' text-success' >" + "               total amount=" + total + "</pre>";
-			popstr = popstr + "<br><input type='button' onclick='clearcart()' class='btn btn-danger mr-3' value='clear'><a href='{% url 'checkout' %}' ><input type='button' class='btn btn-primary' value='checkout'></a> </div>";
-		}
-
-		console.log(popstr);
-
-		document.getElementById("cart_pop1").setAttribute('data-content', popstr);
-
-	}
+}
 
 
 
 
 
+function updatecartpop(cart) {
+    var popstr = ""
+    var n = 1
+    var total = 0
+    for (var i in cart) {
+        if (i != null) {
+            var price =cartitemprice[i]
+            total = total + cart[i] * price
+            popstr = popstr + "<b>" + n + ") " + cartitem[i]+ "  </b>" + cart[i] + "x" + price + "=" + cart[i] * price + "<br>";
+            n = n + 1
+
+        }
+    }
+    console.log("popstr", popstr);
+    if (popstr != "") {
+        popstr = "<b style='font-size:'50'px;'><pre> product name    Qty Price Amount</pre></b>" + popstr + "<br><span>----------------------------------------------------</span><br><pre  class=' text-success'>" + "               total amount=" + total + "</pre>";
+        popstr = popstr + "<br><input type='button' onclick='clearcart()' class='btn btn-danger mr-3' value='clear'><a href='{% url 'checkout' %}' ><input type='button' class='btn btn-primary' value='checkout'></a> </div>";
+    }
+
+    console.log(popstr);
+
+    document.getElementById("cart_pop1").setAttribute('data-content', popstr);
+
+}
 
 
 </script>
