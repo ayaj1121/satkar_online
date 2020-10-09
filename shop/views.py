@@ -13,7 +13,9 @@ from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from django.views.decorators.csrf import csrf_exempt
+import sys
+from shop.paytm.checksum import generateSignature
 # class PostsView(ListView):
 #     model = Product
 #     print(model) 
@@ -175,23 +177,39 @@ def all(request):
 
 @login_required(login_url='shop')
 def placeorder(request):
-
     if request.method == 'POST':
-        fname=request.POST['firstname']
-        email=request.POST['email']
-        address=request.POST['address']
-        city=request.POST['city']
-        phone=request.POST['phone']
-        state=request.POST['state']
-        zipcode=request.POST['zip']
-        totalamount=request"[plo,]
-        user=request.user.id
+        address={}
+        address['fname']=request.POST['firstname']
+        print('fname',request.POST['firstname'])
+        address['email']=request.POST['email']
+        print('email',request.POST['email'])
+        address['address']=request.POST['address']
+        address['city']=request.POST['city']
+        address['phone']=request.POST['phone']
+        address['state']=request.POST['state']
+        address['zipcode']=request.POST['zip']
+        print("address",address)
+        user=Customer(user=request.user)
+        orderitems=json.loads(request.POST['orderitems'])
+        for i in orderitems:
+            print(i)
+        order=Order(customer=user,total_amount=orderitems[3]["totalamount"],address=address,orderitems=orderitems)
+        order.save()
+        data_dict = {
+            'MID':'DSJzTF95702911495385',
+            'ORDER_ID':str(order.order_id),
+            'TXN_AMOUNT':str(orderitems[3]["totalamount"]),
+            'CUST_ID':str(request.user.id),
+            'INDUSTRY_TYPE_ID':'Retail',
+            'WEBSITE':'WEBSTAGING',
+            'CHANNEL_ID':'WEB',
+	        'CALLBACK_URL':'http://127.0.0.1:8000/shop/handlerequest/',
+        }
+        data_dict["CHECKSUMHASH"]=generateSignature(data_dict,'hHzOo8wUm&hizMaJ')
+        return render(request,'shop/paytm.html',{'data_dict':data_dict})
 
-        Order.create
+    return redirect('checkout')
 
-
-
-        
-
-
-    return
+@csrf_exempt
+def handlerequest(request):
+    return HttpResponse('done')

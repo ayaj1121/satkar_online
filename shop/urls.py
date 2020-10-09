@@ -32,7 +32,9 @@ urlpatterns = [
     path("all/", views.all, name="all"),
     path("contact/", views.contact, name="contact"),
     path("orders/", views.orders, name="orders"),
-    path("checkout/placeorder/", views.orders, name="placeorderorder"),
+    path("checkout/placeorder/", views.placeorder, name="placeorder"),
+    path("handlerequest/", views.handlerequest, name="handlerequest"),
+
 
 
 

@@ -3,8 +3,6 @@
 {% block style %}
 
 <style>
-
-   
     .minus,
     .plus {
         color: #333;
@@ -17,7 +15,7 @@
         padding: 5px 10px;
         margin-top: 5px;
         line-height: 16px;
-        
+
     }
 
     .minus:hover,
@@ -78,7 +76,7 @@
         border-radius: 3px;
     }
 
-  
+
 
     input[type=text] {
         width: 100%;
@@ -100,9 +98,9 @@
     }
 
     .checkout {
-        background-color:#000;
+        background-color: #000;
         color: #fff;
-        
+
         padding: 12px;
         margin: 10px 0;
         border: 1px solid #ccc;
@@ -110,11 +108,11 @@
         border-radius: 3px;
         cursor: pointer;
         font-size: 22px;
-        
+
     }
 
     .checkout:hover {
-        background-color:#ccc;
+        background-color: #ccc;
         color: #333;
     }
 
@@ -133,8 +131,6 @@
             margin-bottom: 20px;
         }
     }
-
-    
 </style>
 {% endblock style  %}
 
@@ -143,7 +139,7 @@
 
 {% block main %}
 
-<div class="container mt-5 p-3" >
+<div class="container mt-5 p-3">
     <div class="row">
         <div class="col-75">
             <div class="container" id="payment">
@@ -160,7 +156,7 @@
                             <input required type="text" id="adr" name="address" placeholder="542 W. 15th Street">
                             <label for="city"><i class="fa fa-institution"></i> City</label>
                             <input required type="text" id="city" name="city" placeholder="New York">
-                             <label for="phone"><i class="fa fa-institution"></i> Phone</label>
+                            <label for="phone"><i class="fa fa-institution"></i> Phone</label>
                             <input required type="text" id="phone" name="phone" placeholder="1234567890">
 
                             <div class="row">
@@ -175,7 +171,7 @@
                             </div>
                         </div>
 
-                    
+
 
                     </div>
                     <label>
@@ -224,15 +220,15 @@
             for (var id in cart) {
                 if (cart[id] != 0) {
                     console.log(cart[id], cartitem[id], cartitemprice[id])
-                    totalprice = totalprice + cartitemprice[id]*cart[id]
-                    str = str + "<p id='cartlist" + cart[id] + "'><a href='product/"+ id + "'>" + cartitem[id]+"</a>" + "<button id='minuscart" + id + "'class='btn btn-primary minus mr-2 ml-3' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
-                        "<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn btn-primary plus'>" + "+" + "</button>"+"<span> x  "+cartitemprice[id]+" = </span>" +"<span class='price'>" + cartitemprice[id]*cart[id] + "</span></p>";
+                    totalprice = totalprice + cartitemprice[id] * cart[id]
+                    str = str + "<p id='cartlist" + cart[id] + "'><a href='product/" + id + "'>" + cartitem[id] + "</a>" + "<button id='minuscart" + id + "'class='btn btn-primary minus mr-2 ml-3' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
+                        "<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn btn-primary plus'>" + "+" + "</button>" + "<span> x  " + cartitemprice[id] + " = </span>" + "<span class='price'>" + cartitemprice[id] * cart[id] + "</span></p>";
                 } else {
                     delete cart[id]
                     delete cartitem[id]
                     delete cartitemprice[id]
                     localStorage.setItem('cart', JSON.stringify(cart));
-                    localStorage.setItem('cartitem', JSON.stringify(cartitem)); 
+                    localStorage.setItem('cartitem', JSON.stringify(cartitem));
                     localStorage.setItem('cartitemprice', JSON.stringify(cartitemprice));
                 }
             }
@@ -273,14 +269,31 @@
 
     }
 
-    function getorderitems(){
-        const orderitems=[]
-        if(cart!=null && cartitemprice!=null && cartitem!=null && Object.keys.length(cart) == Object.keys.length(cartitemprice)){
+    function getorderitems() {
+        const orderitems = [];
+        var cartcount = 0;
+        var cartitempricecount = 0;
+        for (const i in cartitem) {
+            cartcount += 1
+        }
+        for (const i in cartitemprice) {
+            cartitempricecount += 1
+        }
+        if (cart != null && cartitemprice != null && cartitem != null && cartcount == cartitempricecount) {
             updatecartbox()
-            orderitems.push(cart)
-            orderitems.push(cartitem)
-            orderitems.push(cartitemprice)
-            document.getElementById('placeorderform').innerHTML+="<input type='hidden' value='"+JSON.stringify(orderitems)+"'>"
+            orderitems.push(cart);
+            orderitems.push(cartitem);
+            orderitems.push(cartitemprice);
+            var totalamount = 0;
+            for (const key in cartitemprice) {
+                totalamount += cartitemprice[key];
+            }
+            orderitems.push({ "totalamount": totalamount });
+            console.log("orderitems", orderitems);
+            console.log(totalamount);
+            var parent = document.getElementById('placeorderform');
+            var newChild ="<input type='hidden' name='orderitems' value='" + JSON.stringify(orderitems) + "'>";
+            parent.insertAdjacentHTML('beforeend', newChild)
         }
 
 
