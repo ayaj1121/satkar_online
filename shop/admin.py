@@ -8,7 +8,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable=['product_name','desc','price','discounted_price','img','category']
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display=['order_id','customer','date','time','total_amount','status','address','transac_id']
+    list_display=['order_id','customer','date','time','total_amount','status','address']
     list_editable=['customer','total_amount']
     # list_display_links = None
 

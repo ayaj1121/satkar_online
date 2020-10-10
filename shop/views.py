@@ -4,18 +4,23 @@ from django.http import request
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
+from pytz import timezone
 # Create your views here.
 from .models import *
 from .forms import *
 
+import pytz
+import datetime
 from math import ceil, log
 from itertools import chain
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from shop.paytm.checksum import generateSignature, verifySignature
+
 import sys
-from shop.paytm.checksum import generateSignature
+
 # class PostsView(ListView):
 #     model = Product
 #     print(model) 
@@ -212,4 +217,21 @@ def placeorder(request):
 
 @csrf_exempt
 def handlerequest(request):
+    form=request.POST
+    response_dict={}
+    status={}
+    for i in form.keys():
+        response_dict[i]=form[i]
+        if i == 'CHECKSUMHASH':
+            checksum=form[i]
+    verify=verifySignature(response_dict,'hHzOo8wUm&hizMaJ',checksum)
+    if verify:
+        if response_dict['RESPCODE'] == '01':
+            print('order successfully')
+            status[datetime.datetime.utcnow().strftime("%c")]="orderplaced"
+            orders=Order.objects.get(order_id=response_dict['ORDERID'])
+            orders.res_msg=response_dict
+            orders.last_status_code=0
+            orders.status=status
+            orders.save()
     return HttpResponse('done')

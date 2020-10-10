@@ -37,8 +37,9 @@ class Order(models.Model):
     time=models.TimeField(auto_now_add=True)
     total_amount=models.IntegerField(default=0)
     status=models.JSONField(default=dict,blank=True,null=True)
+    last_status_code=models.IntegerField(blank=True,null=True)
     address=models.JSONField(default=dict,blank=True,null=True)
-    transac_id=models.CharField(max_length=50,default='')
+    res_msg=models.JSONField(default=dict,blank=True,null=True)
     orderitems=models.JSONField(default=dict,blank=True,null=True)
 
 
