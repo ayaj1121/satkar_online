@@ -17,7 +17,11 @@
 		padding: 5px 10px;
 		margin-top: 5px;
 		line-height: 16px;
-	}
+    }
+    
+    
+
+
 
 	.thumb-wrapper {
 		border-radius: 10px;
@@ -152,7 +156,7 @@
 
 {% if request.user.is_authenticated %}
 if (localStorage.getItem('cart') == null) {
-    var temp={{cart|safe}};
+    console.log("localStorage.getItem('cart')");
     var cart = temp["cart"];
     var cartitem = temp["cartitem"];
     var cartitemprice = temp["cartitemprice"];
@@ -230,8 +234,8 @@ function addtocartclick(id) {
 
 function updatecartbtn(id) {
     if(document.getElementById("sp" + id)!=null){
-    document.getElementById("sp" + id).innerHTML = "<button id='minuscart" + id + "' class='btn btn-primary minus mr-2' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
-        "<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn btn-primary minus'>" + "+" + "</button>";
+    document.getElementById("sp" + id).innerHTML = "<button id='minuscart" + id + "' class='btn addtocart minus mr-2' onclick=minuscart(this.id) >" + "-" + "</button>" + cart[id] +
+        "<button id='pluscart" + id + "' onclick=pluscart(this.id) " + id + " class='ml-2 btn addtocart add'>" + "+" + "</button>";
     }
 }
 
@@ -240,7 +244,7 @@ function minuscart(id) {
     console.log(id, cart[id]);
     cart[id] = cart[id] - 1;
     if (cart[id] == 0) {
-        document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='btn btn-primary' onclick='addtocartclick(this.id)''>Add to Cart</button>"
+        document.getElementById("sp" + id).innerHTML = "<button id=" + id + " href='#' class='addtocart btn btn-primary' onclick='addtocartclick(this.id)''>Add to Cart</button>"
         delete cart[id];
     }
     else {

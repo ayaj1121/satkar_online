@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 from django.utils import timezone
 from pathlib import Path
-import pytz
+import pytz,os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -26,7 +26,7 @@ SECRET_KEY = 'hyt%_b%)5&_z9mvcsnqga5m$y7ls8$5^j*800n5sz=m@=ufvjy'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [*]
 
 
 # Application definition
@@ -135,7 +135,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 
 AWS_ACCESS_KEY_ID=' AKIA3O2CEW3YV2FVSSGX'
 AWS_SECRET_ACCESS_KEY='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'

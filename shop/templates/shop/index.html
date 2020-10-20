@@ -75,7 +75,7 @@ Shop
 
 {% block main %}
 
-
+{{cart}}
 
 <div class="container">
     <main role="main">
@@ -253,7 +253,7 @@ Shop
 
 {% if request.user.is_authenticated %}
 if (localStorage.getItem('cart') == null) {
-    var temp={{cart|safe}};
+    var temp= {{ cart|safe }};
     var cart = temp["cart"];
     var cartitem = temp["cartitem"];
     var cartitemprice = temp["cartitemprice"];
