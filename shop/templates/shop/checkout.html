@@ -286,7 +286,7 @@
             orderitems.push(cartitemprice);
             var totalamount = 0;
             for (const key in cartitemprice) {
-                totalamount += cartitemprice[key];
+                totalamount += cartitemprice[key]*cart[key];
             }
             orderitems.push({ "totalamount": totalamount });
             console.log("orderitems", orderitems);

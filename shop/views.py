@@ -2,7 +2,7 @@ import json
 from django.contrib.auth import authenticate, login,logout  
 from django.http import request
 from django.http.response import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
 from pytz import timezone
 # Create your views here.
@@ -208,15 +208,16 @@ def placeorder(request):
             'INDUSTRY_TYPE_ID':'Retail',
             'WEBSITE':'WEBSTAGING',
             'CHANNEL_ID':'WEB',
-	        'CALLBACK_URL':'http://127.0.0.1:8000/shop/handlerequest/',
+	        'CALLBACK_URL':'http://ec2-18-221-194-129.us-east-2.compute.amazonaws.com:80/shop/handlerequest/',
         }
         data_dict["CHECKSUMHASH"]=generateSignature(data_dict,'hHzOo8wUm&hizMaJ')
-        return render(request,'shop/paytm.html',{'data_dict':data_dict})
+        return render(request,'shop/paytm.html',{'data_dict':data_dict,"order":order})
 
     return redirect('checkout')
 
 @csrf_exempt
 def handlerequest(request):
+    print(request.POST)
     form=request.POST
     response_dict={}
     status={}
@@ -234,4 +235,4 @@ def handlerequest(request):
             orders.last_status_code=0
             orders.status=status
             orders.save()
-    return HttpResponse('done')
+        return HttpResponse('done')
