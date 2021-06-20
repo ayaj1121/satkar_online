@@ -1,5 +1,4 @@
-Django==3.1.2
-django-storages==1.10.1
-psycopg2==2.8.6
-pycryptodome==3.9.8
-
+Django
+django-storages
+psycopg2
+pycryptodome
